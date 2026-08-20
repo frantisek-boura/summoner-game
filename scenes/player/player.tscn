@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://cnjw2watliysa"]
+
+[ext_resource type="Script" uid="uid://ecoengxt0qpr" path="res://scripts/player/player.gd" id="1_dovo2"]
+[ext_resource type="Script" uid="uid://djeabau1mxa1e" path="res://scripts/utils/state_machine.gd" id="2_gmlin"]
+[ext_resource type="Texture2D" uid="uid://ivhipj63degi" path="res://icon.svg" id="2_lvxji"]
+[ext_resource type="Script" uid="uid://ch6i4dhijcus" path="res://scripts/player/idle_state.gd" id="4_p47bc"]
+[ext_resource type="Script" uid="uid://cdxjj2x8das37" path="res://scripts/player/move_state.gd" id="5_75vfm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cslih"]
+radius = 63.03174
+
+[node name="player" type="CharacterBody2D" unique_id=1895177123 node_paths=PackedStringArray("state_machine")]
+script = ExtResource("1_dovo2")
+movement_speed = 195.18
+state_machine = NodePath("state_machine")
+
+[node name="sprite" type="Sprite2D" parent="." unique_id=58080695]
+texture = ExtResource("2_lvxji")
+
+[node name="collider" type="CollisionShape2D" parent="." unique_id=717725179]
+shape = SubResource("CircleShape2D_cslih")
+
+[node name="state_machine" type="Node" parent="." unique_id=897550899 node_paths=PackedStringArray("beginning_state")]
+script = ExtResource("2_gmlin")
+beginning_state = NodePath("idle_state")
+metadata/_custom_type_script = "uid://djeabau1mxa1e"
+
+[node name="idle_state" type="Node" parent="state_machine" unique_id=53127719 node_paths=PackedStringArray("stateful_node")]
+script = ExtResource("4_p47bc")
+stateful_node = NodePath("../..")
+
+[node name="move_state" type="Node" parent="state_machine" unique_id=389582762 node_paths=PackedStringArray("stateful_node")]
+script = ExtResource("5_75vfm")
+stateful_node = NodePath("../..")
