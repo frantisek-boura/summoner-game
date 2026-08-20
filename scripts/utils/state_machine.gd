@@ -11,7 +11,7 @@ var changing_state: bool = false
 signal request_state_change(state_name: String)
 
 func _ready() -> void:
-	if not beginning_state: push_error("STATE MACHINE: Beginning state not set.")
+	assert(beginning_state != null, "STATE MACHINE: Beginning state not set.")
 	
 	request_state_change.connect(_change_state)
 	
@@ -41,14 +41,14 @@ func _scan_states() -> void:
 		if child is State:
 			states.append(child as State)
 	
-	if len(states) == 0: push_warning("STATE MACHINE: State machine has no states.")
+	assert(len(states) != 0, "STATE MACHINE: State machine has no states.")
 	
 ## Finds state in [member StateMachine.states] by its node name.
 ## [br][br]
 ## Takes [String] [param state_name] for the name of the new state's node.
 func _find_state_by_name(state_name: String) -> State:
 	var filtered_states: Array[State] = states.filter(func(s): return s.name == state_name)
-	if len(filtered_states) != 1: push_error("STATE MACHINE: Could not pinpoint state with name '%s'. Found %d states." % [state_name, len(filtered_states)])
+	assert(len(filtered_states) == 1, "STATE MACHINE: Could not pinpoint state with name '%s'. Found %d states." % [state_name, len(filtered_states)])
 	
 	return filtered_states.front() as State
 	
@@ -57,11 +57,11 @@ func _find_state_by_name(state_name: String) -> State:
 ## [br][br]
 ## Takes [String] [param state_name] for the name of the new state's node.
 func _change_state(state_name: String) -> void:
-	var new_state: State = _find_state_by_name(state_name)
-	
 	changing_state = true
 	
-	if not current_state:
+	var new_state: State = _find_state_by_name(state_name)
+	
+	if current_state:
 		current_state.exit()
 	current_state = new_state
 	current_state.enter()
