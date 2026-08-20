@@ -1,0 +1,75 @@
+{
+	"categories": [
+		{
+			"uuid": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"title": "Task",
+			"color": "569eff"
+		}
+	],
+	"stages": [
+		{
+			"uuid": "9f125280-672c-4c33-9037-6066283963e0",
+			"title": "Todo",
+			"tasks": [
+				"38c23c7e-c9bd-477f-966b-71a745caa3d7",
+				"2ad01c5c-dddb-4d0e-b7c0-b26da165d1f0"
+			]
+		},
+		{
+			"uuid": "e6c266e5-ee3e-444a-b4f2-253875a2ff62",
+			"title": "Doing",
+			"tasks": []
+		},
+		{
+			"uuid": "43087b85-4b9e-4e96-a1af-431bf3b059d7",
+			"title": "Done",
+			"tasks": [
+				"f493d29d-5ed4-4566-bc14-74d11065e43f",
+				"41439f90-e31e-4f87-988b-03b56fa11322"
+			]
+		}
+	],
+	"tasks": [
+		{
+			"uuid": "f493d29d-5ed4-4566-bc14-74d11065e43f",
+			"title": "Implement state machine",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "41439f90-e31e-4f87-988b-03b56fa11322",
+			"title": "Implement base state class",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "38c23c7e-c9bd-477f-966b-71a745caa3d7",
+			"title": "Player node",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "2ad01c5c-dddb-4d0e-b7c0-b26da165d1f0",
+			"title": "Movement using state machine",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		}
+	],
+	"layout": {
+		"columns": [
+			[
+				"9f125280-672c-4c33-9037-6066283963e0"
+			],
+			[
+				"e6c266e5-ee3e-444a-b4f2-253875a2ff62"
+			],
+			[
+				"43087b85-4b9e-4e96-a1af-431bf3b059d7"
+			]
+		]
+	}
+}
