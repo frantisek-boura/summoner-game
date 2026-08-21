@@ -16,7 +16,7 @@ func frames(_delta: float) -> void:
 	pass
 
 func physics(_delta: float) -> void:
-	pass
+	player.movement.stop()
 
 func input_process(_delta: float) -> void:
 	var new_direction: Vector2 = player.get_input_direction()

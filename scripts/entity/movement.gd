@@ -2,7 +2,9 @@
 class_name EntityMovement
 extends Node
 
-@export_range(10, 1000, 1) var movement_speed: float = 10.0
+@export_range(10, 1000, 1) var movement_speed: float = 250.0
+@export_range(10, 100, 1) var move_acceleration_speed: float = 50.0
+@export_range(10, 100, 1) var stop_acceleration_speed: float = 50.0
 
 @onready var _entity: Entity = get_parent() as Entity
 
@@ -16,7 +18,17 @@ func _ready() -> void:
 func move() -> void:
 	if not _can_move: return
 	
-	_entity.velocity = _direction * movement_speed
+	_entity.velocity.x = move_toward(_entity.velocity.x, _direction.x * movement_speed, move_acceleration_speed)
+	_entity.velocity.y = move_toward(_entity.velocity.y, _direction.y * movement_speed, move_acceleration_speed)
+	
+	_entity.move_and_slide()
+
+func stop() -> void:
+	if not _can_move: return
+	
+	_entity.velocity.x = move_toward(_entity.velocity.x, 0, stop_acceleration_speed)
+	_entity.velocity.y = move_toward(_entity.velocity.y, 0, stop_acceleration_speed)
+	
 	_entity.move_and_slide()
 
 ## Changes the direction entity is moving in.

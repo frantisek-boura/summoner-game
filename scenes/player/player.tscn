@@ -22,7 +22,7 @@ texture = ExtResource("2_lvxji")
 shape = SubResource("CircleShape2D_cslih")
 
 [node name="movement" parent="." unique_id=2096917769 instance=ExtResource("3_75vfm")]
-movement_speed = 250.0
+movement_speed = 500.0
 
 [node name="state_machine" type="Node" parent="." unique_id=897550899 node_paths=PackedStringArray("beginning_state")]
 script = ExtResource("2_gmlin")
