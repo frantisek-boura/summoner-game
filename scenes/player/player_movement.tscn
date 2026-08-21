@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dwriwxogxtviv"]
+
+[ext_resource type="Script" uid="uid://bop1qkb58w21m" path="res://scripts/player/player_movement.gd" id="1_405lm"]
+
+[node name="movement" type="Node" unique_id=1822100679]
+script = ExtResource("1_405lm")
+metadata/_custom_type_script = "uid://bop1qkb58w21m"

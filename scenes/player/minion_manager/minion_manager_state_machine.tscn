@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dnad2wc7xlfkc"]
+
+[ext_resource type="Script" uid="uid://coow8wf2s2fmj" path="res://scripts/player/minion_manager/minion_manager_state_machine.gd" id="1_vywjm"]
+
+[node name="minion_manager_state_machine" type="Node" unique_id=1920102366]
+script = ExtResource("1_vywjm")
+metadata/_custom_type_script = "uid://coow8wf2s2fmj"

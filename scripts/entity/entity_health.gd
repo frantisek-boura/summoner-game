@@ -40,7 +40,7 @@ func take_damage(damage: int) -> void:
 	if _current_health == 0: died.emit()
 	
 ## Increases current health by heal amount if healing is enabled.
-## Emits [signal EntityHealth.healed] when healed. 
+## Emits [signal EntityHealth.healed] when healed.
 ## Takes [int] [param heal_amount] for the health increase.
 func heal(heal_amount: int) -> void:
 	if not _can_heal: return

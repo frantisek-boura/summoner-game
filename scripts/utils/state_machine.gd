@@ -8,12 +8,8 @@ var _states: Array[State] = []
 var _current_state: State = null
 var _changing_state: bool = false
 
-signal request_state_change(state_name: String)
-
 func _ready() -> void:
 	assert(beginning_state != null, "STATE MACHINE: Beginning state not set.")
-	
-	request_state_change.connect(_change_state)
 	
 	_scan_states()
 	_change_state(beginning_state.name)
@@ -67,7 +63,10 @@ func _change_state(state_name: String) -> void:
 	_current_state.enter()
 	
 	_changing_state = false
-
-## Checks whether the state machine is currently in the process of transitioning from one state to another.
-func is_changing_states() -> bool:
-	return _changing_state
+	
+## Changes this entity's state using its state machine
+## Takes [String] [param state_name] for the name of the new state's node.
+func change_state(state_name: String) -> void:
+	if _changing_state: return
+	
+	_change_state(state_name)

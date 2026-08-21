@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bbucv3apdj71y"]
+
+[ext_resource type="Script" uid="uid://pmvhebgx3kr" path="res://scripts/player/minion_manager/minion_manager.gd" id="1_5ddx4"]
+
+[node name="minion_manager" type="Node" unique_id=926230417]
+script = ExtResource("1_5ddx4")

@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/vsync/vsync_mode=0
 
 [editor_plugins]
 
@@ -28,8 +29,12 @@ enabled=PackedStringArray("res://addons/at-icons/plugin.cfg", "res://addons/kanb
 folder_colors={
 "res://scenes/": "blue",
 "res://scenes/player/": "green",
+"res://scenes/player/minion/": "orange",
+"res://scenes/player/minion_manager/": "purple",
 "res://scripts/": "gray",
-"res://scripts/player/": "green"
+"res://scripts/player/": "green",
+"res://scripts/player/minion/": "orange",
+"res://scripts/player/minion_manager/": "purple"
 }
 
 [input]

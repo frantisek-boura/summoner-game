@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cxhmgommtwlh3"]
+
+[ext_resource type="Script" uid="uid://ylmurc73mj84" path="res://scripts/player/minion/minion_movement.gd" id="1_vsrg2"]
+
+[node name="minion_movement" type="Node" unique_id=248751734]
+script = ExtResource("1_vsrg2")
+idle_radius = null
+idle_movement_speed = null
+movement_speed = null
+move_acceleration_speed = null
+stop_acceleration_speed = null

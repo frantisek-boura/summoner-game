@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b6sh36d38er63"]
+
+[ext_resource type="Script" uid="uid://c6pe1cwntiabp" path="res://scripts/player/minion_manager/states/minion_manager_follow_state.gd" id="1_ec51l"]
+
+[node name="minion_manager_follow_state" type="Node" unique_id=1396733951]
+script = ExtResource("1_ec51l")

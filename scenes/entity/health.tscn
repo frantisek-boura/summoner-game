@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://dih8sd3f77efp"]
-
-[ext_resource type="Script" uid="uid://cjesc2jhaoich" path="res://scripts/entity/health.gd" id="1_odr5x"]
-
-[node name="health" type="Area2D" unique_id=1562004050]
-script = ExtResource("1_odr5x")
-maximum_health = 11

@@ -1,6 +1,8 @@
 class_name Player
 extends Entity
-	
-## Returns player's omnidirectional input direction
-func get_input_direction() -> Vector2:
-	return Input.get_vector("left", "right", "up", "down")
+
+@export var minion_manager: MinionManager
+
+var player_movement: PlayerMovement:
+	get:
+		return movement as PlayerMovement

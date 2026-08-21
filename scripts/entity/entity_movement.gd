@@ -11,7 +11,7 @@ extends Node
 var _direction: Vector2 = Vector2.ZERO
 var _can_move: bool = true
 	
-## Moves the entity based on its current direction value set by [method EntityMovement.change_direction].
+## Accelerates the entity based on its current direction value set by [method EntityMovement.change_direction].
 func move() -> void:
 	if not _can_move: return
 	
@@ -20,6 +20,7 @@ func move() -> void:
 	
 	_entity.move_and_slide()
 
+## Decelerates the entity to [enum Vector2.ZERO].
 func stop() -> void:
 	if not _can_move: return
 	
@@ -36,7 +37,7 @@ func change_direction(new_direction: Vector2) -> void:
 ## Checks if the entity has arrived to a [Vector2] destination.
 ## Takes [Vector2] [param destination] for the position of the destination.
 func has_arrived(destination: Vector2) -> bool:
-	return _entity.position.distance_to(destination) < 0.1
+	return _entity.position.distance_to(destination) < 1
 
 ## Checks if the entity is moving based on its current direction value set by [method EntityMovement.change_direction].
 func wants_to_move() -> bool:
@@ -54,7 +55,3 @@ func enable_movement(is_enabled: bool) -> void:
 ## Checks whether this entity can or cannot move.
 func can_move() -> bool:
 	return _can_move
-
-## Resets entity's velocity back to [member Vector2.ZERO]
-func reset_velocity() -> void:
-	_entity.velocity = Vector2.ZERO
