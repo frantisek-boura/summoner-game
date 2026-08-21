@@ -10,7 +10,10 @@
 		{
 			"uuid": "9f125280-672c-4c33-9037-6066283963e0",
 			"title": "Todo",
-			"tasks": []
+			"tasks": [
+				"8ea30ddf-befe-4e91-9da7-b9e92a5c1908",
+				"2fd03acf-ac7c-4930-b557-07b3f2ad3eca"
+			]
 		},
 		{
 			"uuid": "e6c266e5-ee3e-444a-b4f2-253875a2ff62",
@@ -24,7 +27,8 @@
 				"f493d29d-5ed4-4566-bc14-74d11065e43f",
 				"41439f90-e31e-4f87-988b-03b56fa11322",
 				"38c23c7e-c9bd-477f-966b-71a745caa3d7",
-				"2ad01c5c-dddb-4d0e-b7c0-b26da165d1f0"
+				"2ad01c5c-dddb-4d0e-b7c0-b26da165d1f0",
+				"a66f6bb9-1bf4-4251-99e3-082d0fcd41b7"
 			]
 		}
 	],
@@ -53,6 +57,27 @@
 		{
 			"uuid": "2ad01c5c-dddb-4d0e-b7c0-b26da165d1f0",
 			"title": "Movement using state machine",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "a66f6bb9-1bf4-4251-99e3-082d0fcd41b7",
+			"title": "Health component",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "8ea30ddf-befe-4e91-9da7-b9e92a5c1908",
+			"title": "Minion manager component",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "2fd03acf-ac7c-4930-b557-07b3f2ad3eca",
+			"title": "Minion node",
 			"description": "",
 			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
 			"steps": []

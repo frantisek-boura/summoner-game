@@ -3,17 +3,22 @@
 [ext_resource type="Script" uid="uid://ecoengxt0qpr" path="res://scripts/player/player.gd" id="1_dovo2"]
 [ext_resource type="Script" uid="uid://djeabau1mxa1e" path="res://scripts/utils/state_machine.gd" id="2_gmlin"]
 [ext_resource type="Texture2D" uid="uid://ivhipj63degi" path="res://icon.svg" id="2_lvxji"]
-[ext_resource type="PackedScene" uid="uid://bbu0dfmc55xmn" path="res://scenes/utils/movement.tscn" id="3_75vfm"]
+[ext_resource type="PackedScene" uid="uid://dih8sd3f77efp" path="res://scenes/entity/health.tscn" id="3_0owmy"]
+[ext_resource type="PackedScene" uid="uid://bbu0dfmc55xmn" path="res://scenes/entity/movement.tscn" id="3_75vfm"]
 [ext_resource type="PackedScene" uid="uid://c3tb4herdcfpk" path="res://scenes/player/states/idle_state.tscn" id="5_75vfm"]
 [ext_resource type="PackedScene" uid="uid://cjcv1c550dax3" path="res://scenes/player/states/move_state.tscn" id="6_0owmy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cslih"]
-radius = 63.03174
+radius = 61.008198
 
-[node name="player" type="CharacterBody2D" unique_id=1895177123 node_paths=PackedStringArray("state_machine", "movement")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_mx3rh"]
+radius = 68.007355
+
+[node name="player" type="CharacterBody2D" unique_id=1895177123 node_paths=PackedStringArray("state_machine", "movement", "health")]
 script = ExtResource("1_dovo2")
 state_machine = NodePath("state_machine")
 movement = NodePath("movement")
+health = NodePath("health")
 
 [node name="sprite" type="Sprite2D" parent="." unique_id=58080695]
 texture = ExtResource("2_lvxji")
@@ -21,8 +26,16 @@ texture = ExtResource("2_lvxji")
 [node name="collider" type="CollisionShape2D" parent="." unique_id=717725179]
 shape = SubResource("CircleShape2D_cslih")
 
+[node name="health" parent="." unique_id=1562004050 instance=ExtResource("3_0owmy")]
+
+[node name="collider" type="CollisionShape2D" parent="health" unique_id=1700498109]
+shape = SubResource("CircleShape2D_mx3rh")
+debug_color = Color(0.4727996, 0, 0.05701869, 0.41960785)
+
 [node name="movement" parent="." unique_id=2096917769 instance=ExtResource("3_75vfm")]
-movement_speed = 500.0
+movement_speed = 450.0
+move_acceleration_speed = 80.0
+stop_acceleration_speed = 90.0
 
 [node name="state_machine" type="Node" parent="." unique_id=897550899 node_paths=PackedStringArray("beginning_state")]
 script = ExtResource("2_gmlin")

@@ -10,9 +10,6 @@ extends Node
 
 var _direction: Vector2 = Vector2.ZERO
 var _can_move: bool = true
-
-func _ready() -> void:
-	assert(_entity != null, "ENTITY MOVEMENT: Entity is not set.")
 	
 ## Moves the entity based on its current direction value set by [method EntityMovement.change_direction].
 func move() -> void:
@@ -45,9 +42,9 @@ func has_arrived(destination: Vector2) -> bool:
 func wants_to_move() -> bool:
 	return _direction != Vector2.ZERO
 	
-## Checks whether this entity is moving intentionally (moving with player input)
+## Checks whether this entity is physically moving.
 func is_moving() -> bool:
-	return _entity.velocity != Vector2.ZERO and _direction != Vector2.ZERO
+	return _entity.velocity != Vector2.ZERO
 
 ## Decides whether this entity can or cannot move.
 ## Takes [bool] [param is_enabled] to decide.
