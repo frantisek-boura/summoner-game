@@ -4,9 +4,9 @@ extends Node
 
 @export var beginning_state: State
 
-var states: Array[State] = []
-var current_state: State = null
-var changing_state: bool = false
+var _states: Array[State] = []
+var _current_state: State = null
+var _changing_state: bool = false
 
 signal request_state_change(state_name: String)
 
@@ -19,35 +19,35 @@ func _ready() -> void:
 	_change_state(beginning_state.name)
 	
 func _input(event: InputEvent) -> void:
-	if changing_state: return
+	if _changing_state: return
 	
-	current_state.input_event(event)
+	_current_state.input_event(event)
 	
 func _process(delta: float) -> void:
-	current_state.frames(delta)
+	_current_state.frames(delta)
 	
-	if changing_state: return
+	if _changing_state: return
 	
-	current_state.input_process(delta)
+	_current_state.input_process(delta)
 	
 func _physics_process(delta: float) -> void:
-	if changing_state: return
+	if _changing_state: return
 	
-	current_state.physics(delta)
+	_current_state.physics(delta)
 	
 ## Filters this node's children for [State] nodes and saves them to [member StateMachine.states].
 func _scan_states() -> void:
 	for child in get_children():
 		if child is State:
-			states.append(child as State)
+			_states.append(child as State)
 	
-	assert(len(states) != 0, "STATE MACHINE: State machine has no states.")
+	assert(len(_states) != 0, "STATE MACHINE: State machine has no states.")
 	
 ## Finds state in [member StateMachine.states] by its node name.
 ## [br][br]
 ## Takes [String] [param state_name] for the name of the new state's node.
 func _find_state_by_name(state_name: String) -> State:
-	var filtered_states: Array[State] = states.filter(func(s): return s.name == state_name)
+	var filtered_states: Array[State] = _states.filter(func(s): return s.name == state_name)
 	assert(len(filtered_states) == 1, "STATE MACHINE: Could not pinpoint state with name '%s'. Found %d states." % [state_name, len(filtered_states)])
 	
 	return filtered_states.front() as State
@@ -57,13 +57,17 @@ func _find_state_by_name(state_name: String) -> State:
 ## [br][br]
 ## Takes [String] [param state_name] for the name of the new state's node.
 func _change_state(state_name: String) -> void:
-	changing_state = true
+	_changing_state = true
 	
 	var new_state: State = _find_state_by_name(state_name)
 	
-	if current_state:
-		current_state.exit()
-	current_state = new_state
-	current_state.enter()
+	if _current_state:
+		_current_state.exit()
+	_current_state = new_state
+	_current_state.enter()
 	
-	changing_state = false
+	_changing_state = false
+
+## Checks whether the state machine is currently in the process of transitioning from one state to another.
+func is_changing_states() -> bool:
+	return _changing_state
