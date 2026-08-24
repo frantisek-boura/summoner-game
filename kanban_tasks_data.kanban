@@ -11,7 +11,7 @@
 			"uuid": "9f125280-672c-4c33-9037-6066283963e0",
 			"title": "Todo",
 			"tasks": [
-				"1f06e670-1709-4c8c-9b9c-72e29040bf55"
+				"db2696ed-098c-4b80-9cc3-a1b1fd4c86b3"
 			]
 		},
 		{
@@ -30,7 +30,13 @@
 				"a66f6bb9-1bf4-4251-99e3-082d0fcd41b7",
 				"b6186fb1-2a37-4c84-b205-ca51a1827f31",
 				"2fd03acf-ac7c-4930-b557-07b3f2ad3eca",
-				"8ea30ddf-befe-4e91-9da7-b9e92a5c1908"
+				"8ea30ddf-befe-4e91-9da7-b9e92a5c1908",
+				"1f06e670-1709-4c8c-9b9c-72e29040bf55",
+				"5f87db54-d090-4a7c-b997-689ca7d91d64",
+				"f91da2e5-fc74-4dd4-be04-a6a511a8b74f",
+				"8f3be143-109f-47b1-b7d9-f785910922c3",
+				"6d7c05a2-2fe3-4820-b293-48fd0f69ed08",
+				"97bf2101-5904-402c-a50e-4aa0cf3f150f"
 			]
 		}
 	],
@@ -94,6 +100,48 @@
 		{
 			"uuid": "1f06e670-1709-4c8c-9b9c-72e29040bf55",
 			"title": "Write minion follow state functionality",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "5f87db54-d090-4a7c-b997-689ca7d91d64",
+			"title": "Minion Follow -> Idle: Moving into position state",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "f91da2e5-fc74-4dd4-be04-a6a511a8b74f",
+			"title": "Minion Idle: Idling state",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "8f3be143-109f-47b1-b7d9-f785910922c3",
+			"title": "Minion Idle -> Follow: Moving to entity position",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "6d7c05a2-2fe3-4820-b293-48fd0f69ed08",
+			"title": "Minion Follow: Following entity",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "97bf2101-5904-402c-a50e-4aa0cf3f150f",
+			"title": "Minion Follow -> Idle: Moving to entity position",
+			"description": "",
+			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
+			"steps": []
+		},
+		{
+			"uuid": "db2696ed-098c-4b80-9cc3-a1b1fd4c86b3",
+			"title": "Minion follow entity design",
 			"description": "",
 			"category": "213c8fdd-6d53-4dae-93de-9e380305195e",
 			"steps": []

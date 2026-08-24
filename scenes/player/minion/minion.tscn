@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bk5x6jatv6o80" path="res://scenes/player/minion/minion_state_machine.tscn" id="5_l5d2n"]
 [ext_resource type="PackedScene" uid="uid://bwsnqroe766j7" path="res://scenes/player/minion/states/minion_idle_state.tscn" id="6_8b0ys"]
 [ext_resource type="PackedScene" uid="uid://wcxtrycj2vlv" path="res://scenes/player/minion/states/minion_follow_state.tscn" id="7_fqypg"]
+[ext_resource type="PackedScene" uid="uid://be3vivt4aqtaa" path="res://scenes/player/minion/states/minion_move_to_entity_state.tscn" id="10_4eqwe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8b0ys"]
 radius = 29.0
@@ -18,6 +19,7 @@ radius = 35.057095
 top_level = true
 collision_layer = 2
 collision_mask = 0
+platform_on_leave = 2
 script = ExtResource("1_ksga3")
 state_machine = NodePath("minion_state_machine")
 movement = NodePath("minion_movement")
@@ -39,13 +41,11 @@ debug_color = Color(0.39926603, 0, 0.022066697, 0.41960785)
 
 [node name="minion_movement" parent="." unique_id=248751734 instance=ExtResource("4_fqypg")]
 idle_radius = 250.0
-idle_movement_speed = 200.0
-idle_acceleration_speed = 25.0
-follow_movement_speed = 500.0
-follow_acceleration_speed = 25.0
+follow_movement_speed = 450.0
+follow_acceleration_speed = 15.0
 movement_speed = 1000.0
-move_acceleration_speed = 70.0
-stop_acceleration_speed = 100.0
+move_acceleration_speed = 100.0
+stop_acceleration_speed = 10.0
 
 [node name="minion_state_machine" parent="." unique_id=1850018547 node_paths=PackedStringArray("beginning_state") instance=ExtResource("5_l5d2n")]
 beginning_state = NodePath("minion_idle_state")
@@ -54,4 +54,7 @@ beginning_state = NodePath("minion_idle_state")
 minion = NodePath("../..")
 
 [node name="minion_follow_state" parent="minion_state_machine" unique_id=960722804 node_paths=PackedStringArray("minion") instance=ExtResource("7_fqypg")]
+minion = NodePath("../..")
+
+[node name="minion_move_to_entity_state" parent="minion_state_machine" unique_id=1351925809 node_paths=PackedStringArray("minion") instance=ExtResource("10_4eqwe")]
 minion = NodePath("../..")

@@ -10,19 +10,14 @@ func enter() -> void:
 	pass
 
 func exit() -> void:
-	minion.minion_movement.reset_direction()
+	pass
 
 func frames(_delta: float) -> void:
 	pass
 
-func physics(_delta: float) -> void:
+func physics(delta: float) -> void:
 	var idle_position: Vector2 = minion.minion_movement.get_idle_position()
-	minion.minion_movement.change_direction(minion.global_position.direction_to(idle_position))
-	if minion.minion_movement.has_arrived(idle_position):
-		minion.minion_movement.stop()
-	else:
-		minion.minion_movement.move_to_idle()
-	
+	minion.minion_movement.lock_in_position(delta, idle_position)
 
 func input_process(_delta: float) -> void:
 	pass

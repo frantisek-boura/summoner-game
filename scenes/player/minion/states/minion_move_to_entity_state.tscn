@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://be3vivt4aqtaa"]
+
+[ext_resource type="Script" uid="uid://dmnosnr3spets" path="res://scripts/player/minion/states/minion_move_to_entity_state.gd" id="1_boy2g"]
+
+[node name="minion_move_from_follow_position_state" type="Node" unique_id=1351925809]
+script = ExtResource("1_boy2g")

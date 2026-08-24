@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dhsi45awd3i4r"]
+
+[sub_resource type="GDScript" id="GDScript_y14hi"]
+script/source = "class_name MinionMoveToFollowPositionState
+extends State
+
+@export var minion: Minion
+
+func _ready() -> void:
+	assert(minion != null, \"MINION MOVE TO FOLLOW POSITION STATE: Stateful node not set\")
+
+func enter() -> void:
+	pass
+
+func exit() -> void:
+	minion.set_motion_mode(CharacterBody2D.MOTION_MODE_GROUNDED)
+
+func frames(_delta: float) -> void:
+	pass
+
+func physics(_delta: float) -> void:
+	var entity_position: Vector2 = minion.minion_movement.get_entity_position()
+	
+	minion.minion_movement.move_to_entity()
+	if minion.minion_movement.has_arrived(entity_position):
+		minion.minion_manager.mark_ready(minion.index, \"minion_follow_state\")
+		minion.minion_movement.reset_velocity()
+
+func input_process(_delta: float) -> void:
+	pass
+
+func input_event(_event: InputEvent) -> void:
+	pass
+"
+
+[node name="minion_move_to_follow_position_state" type="Node" unique_id=657529947]
+script = SubResource("GDScript_y14hi")

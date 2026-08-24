@@ -7,7 +7,7 @@ func _ready() -> void:
 	assert(minion_manager != null, "MINION MANAGER FOLLOW STATE: Stateful node not set")
 
 func enter() -> void:
-	minion_manager.follow_minions()
+	minion_manager.group_change_state("minion_move_to_entity_state")
 
 func exit() -> void:
 	pass
@@ -15,8 +15,8 @@ func exit() -> void:
 func frames(_delta: float) -> void:
 	pass
 
-func physics(_delta: float) -> void:
-	pass
+func physics(delta: float) -> void:
+	minion_manager.inc_angle(delta)
 
 func input_process(_delta: float) -> void:
 	pass

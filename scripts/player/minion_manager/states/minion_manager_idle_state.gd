@@ -7,7 +7,7 @@ func _ready() -> void:
 	assert(minion_manager != null, "MINION MANAGER IDLE STATE: Stateful node not set")
 
 func enter() -> void:
-	minion_manager.idle_minions()
+	minion_manager.group_change_state("minion_move_to_entity_state")
 
 func exit() -> void:
 	pass

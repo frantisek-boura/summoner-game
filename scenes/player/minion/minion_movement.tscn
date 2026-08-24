@@ -4,8 +4,3 @@
 
 [node name="minion_movement" type="Node" unique_id=248751734]
 script = ExtResource("1_vsrg2")
-idle_radius = null
-idle_movement_speed = null
-movement_speed = null
-move_acceleration_speed = null
-stop_acceleration_speed = null

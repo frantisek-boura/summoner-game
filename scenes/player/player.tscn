@@ -41,12 +41,17 @@ debug_color = Color(0.4727996, 0, 0.05701869, 0.41960785)
 
 [node name="minion_manager" parent="." unique_id=926230417 node_paths=PackedStringArray("state_machine") instance=ExtResource("4_qek5x")]
 state_machine = NodePath("minion_manager_state_machine")
+idle_rotation_speed = 1.0
 
 [node name="minion" parent="minion_manager" unique_id=72757938 instance=ExtResource("5_5gtgg")]
 
-[node name="minion2" parent="minion_manager" unique_id=1511440538 instance=ExtResource("5_5gtgg")]
+[node name="minion2" parent="minion_manager" unique_id=689160320 instance=ExtResource("5_5gtgg")]
 
-[node name="minion3" parent="minion_manager" unique_id=24643748 instance=ExtResource("5_5gtgg")]
+[node name="minion3" parent="minion_manager" unique_id=1724259837 instance=ExtResource("5_5gtgg")]
+
+[node name="minion4" parent="minion_manager" unique_id=182105335 instance=ExtResource("5_5gtgg")]
+
+[node name="minion5" parent="minion_manager" unique_id=126535047 instance=ExtResource("5_5gtgg")]
 
 [node name="minion_manager_state_machine" parent="minion_manager" unique_id=1920102366 node_paths=PackedStringArray("beginning_state") instance=ExtResource("6_je7p5")]
 beginning_state = NodePath("minion_manager_idle_state")
