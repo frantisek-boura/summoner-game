@@ -2,6 +2,8 @@
 @abstract class_name State 
 extends Node
 
+@export var timer: Timer = null
+
 @onready var state_machine: StateMachine = get_parent() as StateMachine
 
 ## Called on the new state when [StateMachine] changes states.

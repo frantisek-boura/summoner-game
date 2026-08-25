@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://tindbr5hba6a"]
+
+[ext_resource type="Script" uid="uid://b43ekgaafb0iu" path="res://scripts/player/minion_manager/minion_path.gd" id="1_mv85x"]
+
+[node name="minion_path" type="Node2D" unique_id=182940652]
+top_level = true
+script = ExtResource("1_mv85x")

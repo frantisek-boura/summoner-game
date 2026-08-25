@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c05qlldfo5akd"]
+
+[ext_resource type="Script" uid="uid://bu6mqsomk7mgo" path="res://scripts/utils/depth_detector.gd" id="1_mfdg1"]
+
+[node name="depth_detector" type="Node" unique_id=412125122]
+script = ExtResource("1_mfdg1")

@@ -2,6 +2,8 @@
 class_name EntityMovement
 extends Node
 
+const HAS_ARRIVED_DETECTION_RADIUS: float = 50.0
+
 @export_range(10, 1000, 1) var movement_speed: float = 250.0
 @export_range(10, 100, 1) var move_acceleration_speed: float = 50.0
 @export_range(10, 100, 1) var stop_acceleration_speed: float = 50.0
@@ -37,7 +39,7 @@ func change_direction(new_direction: Vector2) -> void:
 ## Checks if the entity has arrived to a [Vector2] destination.
 ## Takes [Vector2] [param destination] for the position of the destination.
 func has_arrived(destination: Vector2) -> bool:
-	return _entity.position.distance_to(destination) < 50
+	return _entity.position.distance_to(destination) < HAS_ARRIVED_DETECTION_RADIUS
 
 ## Checks if the entity is moving based on its current direction value set by [method EntityMovement.change_direction].
 func wants_to_move() -> bool:

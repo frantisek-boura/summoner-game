@@ -1,7 +1,8 @@
 @icon("res://addons/at-icons/node2d/brain.svg")
 class_name MinionManager
-extends Node
+extends Node2D
 
+@export var minion_path: MinionPath
 @export var state_machine: MinionManagerStateMachine
 @export_range(1, 20) var idle_rotation_speed: float = 0.5
 
@@ -13,6 +14,7 @@ var _ready_minions: Array[int] = []
 var angle: float = 0
 
 func _ready() -> void:
+	assert(minion_path != null, "MINION MANAGER: Minion Path not set.")
 	assert(state_machine != null, "MINION MANAGER: State Machine not set.")
 	assert(entity != null, "MINION MANAGER: Entity not set.")
 	
@@ -36,10 +38,15 @@ func _scan_minions(node: Node, is_deleting: bool) -> void:
 	
 	_minion_count = count
 	_minions = new_minions
+	minion_path.init_points(_minion_count)
 	
 ## Filters [member MinionManager._members] for those, that can be forced to change state.
 func _get_forceable_minions() -> Array[Minion]:
 	return _minions.filter(func(m: Minion): return m.minion_state_machine.is_forceable())
+	
+## Returns the position of the entity this minion belongs to.
+func get_entity_position() -> Vector2:
+	return entity.global_position
 	
 ## Returns the radial offset by minion index in rads.
 func minion_offset(index: int) -> float:
@@ -48,7 +55,7 @@ func minion_offset(index: int) -> float:
 ## Increases internal [member MinionManager.angle] value used for determining current idle position of each minion.
 ## Takes [float] [param delta] as increment.
 func inc_angle(delta: float) -> void:
-	angle += delta
+	angle += delta * idle_rotation_speed
 	
 ## Forces state-forceable minions in [member MinionManager._minions] to change state.
 ## Takes [String] [param state_name] as the name of the new state.
