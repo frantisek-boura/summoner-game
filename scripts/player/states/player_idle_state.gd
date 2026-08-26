@@ -7,10 +7,11 @@ func _ready() -> void:
 	assert(player != null, "PLAYER IDLE STATE: Stateful node not set")
 
 func enter() -> void:
-	player.minion_manager.state_machine.change_state("minion_manager_idle_state")
+	pass
 
 func exit() -> void:
-	pass
+	if player.minion_manager.is_idling:
+		player.minion_manager.follow_minions()
 
 func frames(_delta: float) -> void:
 	pass
@@ -21,9 +22,15 @@ func physics(_delta: float) -> void:
 func input_process(_delta: float) -> void:
 	var new_direction: Vector2 = player.player_movement.get_input_direction()
 	player.player_movement.change_direction(new_direction)
-
+	
 	if player.player_movement.wants_to_move() and player.player_movement.can_move():
 		player.state_machine.change_state("player_move_state")
 
-func input_event(_event: InputEvent) -> void:
-	pass
+func input_event(event: InputEvent) -> void:
+	if event.is_action_pressed("minion_selector") and not player.minion_manager.is_idling:
+		player.minion_manager.idle_minions()
+	if event.is_action_released("minion_selector") and player.minion_manager.is_idling:
+		player.minion_manager.radial_minion_menu.make_selection()
+		player.minion_manager.follow_minions()
+	if event.is_action_released("escape") and player.minion_manager.is_idling:
+		player.minion_manager.follow_minions()

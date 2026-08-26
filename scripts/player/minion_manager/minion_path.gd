@@ -17,11 +17,6 @@ func disable_updates() -> void:
 	
 func enable_updates() -> void:
 	_timer.start()
-	_reset_points()
-	
-func _reset_points() -> void:
-	for point: Node2D in _points:
-		point.global_position = _entity.global_position
 	
 func init_points(minion_count: int) -> void:
 	_points.clear()

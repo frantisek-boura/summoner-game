@@ -7,6 +7,7 @@ extends Node
 var _states: Array[State] = []
 var _current_state: State = null
 var _changing_state: bool = false
+var _can_change_state: bool = true
 
 signal state_changed(old_state_name: String, new_state_name: String)
 
@@ -72,6 +73,12 @@ func _change_state(new_state_name: String) -> void:
 ## Changes this entity's state using its state machine
 ## Takes [String] [param new_state_name] for the name of the new state's node.
 func change_state(new_state_name: String) -> void:
-	if _changing_state: return
+	if not _can_change_state or _changing_state: return
 	
 	_change_state(new_state_name)
+
+func set_can_change_state(is_enabled: bool) -> void:
+	_can_change_state = is_enabled
+	
+func can_change_state() -> bool:
+	return _can_change_state

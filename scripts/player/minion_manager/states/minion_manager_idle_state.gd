@@ -8,9 +8,9 @@ func _ready() -> void:
 
 func enter() -> void:
 	minion_manager.group_change_state("minion_move_to_entity_state")
-
+	
 func exit() -> void:
-	pass
+	minion_manager.minion_path.reset_points()
 
 func frames(_delta: float) -> void:
 	pass

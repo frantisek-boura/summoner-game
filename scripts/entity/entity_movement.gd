@@ -58,5 +58,10 @@ func enable_movement(is_enabled: bool) -> void:
 func can_move() -> bool:
 	return _can_move
 	
+## Resets this entity's velocity.
 func reset_velocity() -> void:
 	_entity.velocity = Vector2.ZERO
+	
+## Resets this entity's direction.
+func reset_direction() -> void:
+	_direction = Vector2.ZERO
