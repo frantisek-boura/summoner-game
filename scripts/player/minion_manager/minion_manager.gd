@@ -2,7 +2,7 @@
 class_name MinionManager
 extends Node2D
 
-const IDLE_RADIUS: float = 300.0
+const IDLE_RADIUS: float = 200.0
 const IDLE_RADIUS_Y_MULTIPLIER: float = 0.5
 
 @export var radial_minion_menu: RadialMinionMenu
@@ -40,7 +40,8 @@ func _inc_angle(delta: float) -> void:
 	angle -= delta * idle_rotation_speed
 
 func _on_minion_selected(minion: Minion) -> void:
-	print("Selected minion: %s" % minion.name)
+	print("Selected minion: %s." % minion.name)
+	selected_minion = minion
 
 ## Scans child nodes for minions and adds them to [member MinionManager._minions].
 ## Is invoked on _ready and whenever a node enters/leaves child tree of [MinionManager]
@@ -111,19 +112,14 @@ func get_forcible_minion_index(minion_index: int) -> int:
 	
 	return forcible_indices.find(minion_index)
 	
-func set_minion_independent(minion_index: int, state_name: String) -> void:
-	var forcible_indices: Array = _forcible_minions.map(func(m: Minion): return m.index)
-	assert(forcible_indices.has(minion_index), "MINION MANAGER: Index of forcible minion not found.")
-	
-	var minion: Minion = _forcible_minions[minion_index]
+func set_minion_independent(state_name: String) -> void:
+	var minion: Minion = selected_minion
+	print("Minion %s set free." % minion.name)
 	minion.minion_state_machine.set_forcible(false)
 	minion.minion_state_machine.change_state(state_name)
 	
-func set_minion_forcible(minion_index: int) -> void:
-	var indices: Array = _minions.map(func(m: Minion): return m.index)
-	assert(indices.has(minion_index), "MINION MANAGER: Index of minion not found.")
-	
-	var minion: Minion = _minions[minion_index]
+func set_minion_forcible() -> void:
+	var minion: Minion = selected_minion
 	minion.minion_state_machine.set_forcible(true)
 	
 ## Returns the radial offset by minion index in rads.
