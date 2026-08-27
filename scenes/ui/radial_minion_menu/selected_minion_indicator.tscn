@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dqh5ljvowxgjy"]
+
+[ext_resource type="Script" uid="uid://dyx1hny7f0edy" path="res://scripts/ui/radial_minion_menu/selected_minion_indicator.gd" id="1_pkfg3"]
+
+[node name="selected_minion_indicator" type="Node2D" unique_id=1992925831]
+top_level = true
+visibility_layer = 2
+z_index = -4095
+z_as_relative = false
+script = ExtResource("1_pkfg3")
+min_radius = 20.0
+max_radius = 30.0
+color = Color(0.6161518, 0.64336574, 0.88721037, 1)

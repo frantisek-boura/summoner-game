@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c3tb4herdcfpk" path="res://scenes/player/states/player_idle_state.tscn" id="5_75vfm"]
 [ext_resource type="PackedScene" uid="uid://cjcv1c550dax3" path="res://scenes/player/states/player_move_state.tscn" id="6_0owmy"]
 [ext_resource type="PackedScene" uid="uid://c4jablrvqtyog" path="res://scenes/ui/radial_minion_menu/radial_minion_menu.tscn" id="6_fm80t"]
+[ext_resource type="PackedScene" uid="uid://dqh5ljvowxgjy" path="res://scenes/ui/radial_minion_menu/selected_minion_indicator.tscn" id="7_fcs02"]
 [ext_resource type="PackedScene" uid="uid://tindbr5hba6a" path="res://scenes/player/minion_manager/minion_path.tscn" id="7_ugbui"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cslih"]
@@ -55,10 +56,21 @@ position = Vector2(0, -64)
 shape = SubResource("CircleShape2D_mx3rh")
 debug_color = Color(0.4727996, 0, 0.05701869, 0.41960785)
 
-[node name="minion_manager" parent="." unique_id=926230417 node_paths=PackedStringArray("radial_minion_menu", "minion_path") instance=ExtResource("4_qek5x")]
+[node name="minion_manager" parent="." unique_id=926230417 node_paths=PackedStringArray("radial_minion_menu", "selected_minion_indicator", "minion_path") instance=ExtResource("4_qek5x")]
 radial_minion_menu = NodePath("radial_minion_menu")
+selected_minion_indicator = NodePath("selected_minion_indicator")
 minion_path = NodePath("minion_path")
-idle_rotation_speed = 0.25
+idle_rotation_speed = 0.15
+
+[node name="selected_minion_indicator" parent="minion_manager" unique_id=1264056604 instance=ExtResource("7_fcs02")]
+visible = false
+clip_children = 2
+oversampling_with_scale = 2
+visibility_layer = 1
+min_radius = 35.0
+max_radius = 50.0
+animation_speed = 10.0
+color = Color(0.4392157, 0.5019608, 0.5647059, 1)
 
 [node name="radial_minion_menu" parent="minion_manager" unique_id=505597823 instance=ExtResource("6_fm80t")]
 expand_speed = 7.0
@@ -66,6 +78,12 @@ expand_speed = 7.0
 [node name="minion" parent="minion_manager" unique_id=72757938 instance=ExtResource("5_5gtgg")]
 
 [node name="minion2" parent="minion_manager" unique_id=1009975538 instance=ExtResource("5_5gtgg")]
+
+[node name="minion6" parent="minion_manager" unique_id=2009429061 instance=ExtResource("5_5gtgg")]
+
+[node name="minion7" parent="minion_manager" unique_id=581483108 instance=ExtResource("5_5gtgg")]
+
+[node name="minion8" parent="minion_manager" unique_id=1554646292 instance=ExtResource("5_5gtgg")]
 
 [node name="minion3" parent="minion_manager" unique_id=678972414 instance=ExtResource("5_5gtgg")]
 

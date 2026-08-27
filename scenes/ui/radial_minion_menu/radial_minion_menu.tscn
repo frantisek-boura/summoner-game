@@ -2,17 +2,9 @@
 
 [ext_resource type="Script" uid="uid://d0wlers7fxy6u" path="res://scripts/ui/radial_minion_menu/radial_minion_menu.gd" id="1_be40h"]
 
-[node name="radial_minion_menu" type="Control" unique_id=505597823]
+[node name="radial_minion_menu" type="Node2D" unique_id=335324687]
 visible = false
 z_index = -4096
 z_as_relative = false
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
 script = ExtResource("1_be40h")
 line_width = 2

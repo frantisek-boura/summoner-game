@@ -2,12 +2,13 @@
 class_name MinionManager
 extends Node2D
 
-const IDLE_RADIUS: float = 200.0
+const IDLE_RADIUS: float = 300.0
 const IDLE_RADIUS_Y_MULTIPLIER: float = 0.5
 
 @export var radial_minion_menu: RadialMinionMenu
+@export var selected_minion_indicator: SelectedMinionIndicator
 @export var minion_path: MinionPath
-@export_range(0, 1, 0.001) var idle_rotation_speed: float = 0.5
+@export_range(0, 1, 0.001) var idle_rotation_speed: float = 0.3
 
 @onready var entity: Entity = get_parent() as Entity
 
@@ -22,6 +23,7 @@ signal forcible_minions_changed(minions: Array[Minion])
 
 func _ready() -> void:
 	assert(radial_minion_menu != null, "MINION MANAGER: Radial Minion Menu not set.")
+	assert(selected_minion_indicator != null, "MINION MANAGER: Selected Minion Indicator not set.")
 	assert(minion_path != null, "MINION MANAGER: Minion Path not set.")
 	assert(entity != null, "MINION MANAGER: Entity not set.")
 	
@@ -40,8 +42,8 @@ func _inc_angle(delta: float) -> void:
 	angle -= delta * idle_rotation_speed
 
 func _on_minion_selected(minion: Minion) -> void:
-	print("Selected minion: %s." % minion.name)
 	selected_minion = minion
+	selected_minion_indicator.enable(minion)
 
 ## Scans child nodes for minions and adds them to [member MinionManager._minions].
 ## Is invoked on _ready and whenever a node enters/leaves child tree of [MinionManager]
@@ -60,10 +62,10 @@ func _scan_minions(node: Node, is_deleting: bool) -> void:
 		
 		new_minion_count += 1
 		minion.index = new_minion_count
-			
 		new_minions.append(minion)
 		
-		if not minion.minion_state_machine.is_forcible(): continue
+		if not minion.minion_state_machine.is_forcible(): 
+			continue
 		new_forcible_minions.append(minion)
 	
 	new_minions.sort_custom(_by_index)
@@ -71,7 +73,7 @@ func _scan_minions(node: Node, is_deleting: bool) -> void:
 	
 	_minions = new_minions
 	_forcible_minions = new_forcible_minions
-	minion_path.init_points(len(_minions))
+	minion_path.init_points(len(_forcible_minions))
 	radial_minion_menu.set_options(_forcible_minions)
 	
 ## Forces minions that can be forced into the idle state.
@@ -113,12 +115,16 @@ func get_forcible_minion_index(minion_index: int) -> int:
 	return forcible_indices.find(minion_index)
 	
 func set_minion_independent(state_name: String) -> void:
+	if selected_minion == null: return
+	
 	var minion: Minion = selected_minion
-	print("Minion %s set free." % minion.name)
+	
 	minion.minion_state_machine.set_forcible(false)
 	minion.minion_state_machine.change_state(state_name)
 	
 func set_minion_forcible() -> void:
+	if selected_minion == null: return
+	
 	var minion: Minion = selected_minion
 	minion.minion_state_machine.set_forcible(true)
 	
