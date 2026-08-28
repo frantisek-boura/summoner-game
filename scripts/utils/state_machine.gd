@@ -58,14 +58,15 @@ func _find_state_by_name(state_name: String) -> State:
 func _change_state(new_state_name: String) -> void:
 	_changing_state = true
 	
-	var old_state_name: String = _current_state.name if _current_state != null else ""
+	var old_state_name: String = str(_current_state.name) if _current_state != null else ""
 	var new_state: State = _find_state_by_name(new_state_name)
 	
 	if _current_state:
 		_current_state.exit()
 	_current_state = new_state
 	
-	state_changed.emit(old_state_name, new_state_name)
+	if old_state_name != new_state_name:
+		state_changed.emit(old_state_name, new_state_name)
 	_current_state.enter()
 	
 	_changing_state = false

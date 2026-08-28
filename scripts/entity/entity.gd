@@ -2,11 +2,11 @@
 class_name Entity
 extends CharacterBody2D
 
-@export var state_machine: StateMachine
-@export var movement: EntityMovement
-@export var health: EntityHealth
+@export var entity_state_machine: StateMachine
+@export var entity_movement: EntityMovement
+@export var entity_health: EntityHealth
 
 func _ready() -> void:
-	assert(state_machine != null, "ENTITY: State machine not set.")
-	assert(movement != null, "ENTITY: Movement not set.")
-	assert(health != null, "ENTITY: Health not set.")
+	assert(entity_state_machine != null, "ENTITY: State machine not set.")
+	assert(entity_movement != null, "ENTITY: Movement not set.")
+	assert(entity_health != null, "ENTITY: Health not set.")

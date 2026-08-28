@@ -8,7 +8,7 @@ var index: int = 0
 
 var minion_movement: MinionMovement:
 	get:
-		return movement as MinionMovement
+		return entity_movement as MinionMovement
 var minion_state_machine: MinionStateMachine:
 	get: 
-		return state_machine as MinionStateMachine
+		return entity_state_machine as MinionStateMachine
