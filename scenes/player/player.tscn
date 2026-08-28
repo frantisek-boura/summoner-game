@@ -8,7 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://c05qlldfo5akd" path="res://scenes/utils/depth_detector.tscn" id="3_gx1jg"]
 [ext_resource type="PackedScene" uid="uid://dwriwxogxtviv" path="res://scenes/player/player_movement.tscn" id="4_0owmy"]
 [ext_resource type="PackedScene" uid="uid://c3tb4herdcfpk" path="res://scenes/player/states/player_idle_state.tscn" id="5_75vfm"]
+[ext_resource type="PackedScene" uid="uid://bbucv3apdj71y" path="res://scenes/player/minion_manager/minion_manager.tscn" id="5_gx1jg"]
 [ext_resource type="PackedScene" uid="uid://cjcv1c550dax3" path="res://scenes/player/states/player_move_state.tscn" id="6_0owmy"]
+[ext_resource type="PackedScene" uid="uid://c4jablrvqtyog" path="res://scenes/ui/radial_minion_menu/radial_minion_menu.tscn" id="6_ugbui"]
+[ext_resource type="PackedScene" uid="uid://dqh5ljvowxgjy" path="res://scenes/ui/radial_minion_menu/selected_minion_indicator.tscn" id="7_fcs02"]
+[ext_resource type="Script" uid="uid://b43ekgaafb0iu" path="res://scripts/player/minion_manager/minion_path.gd" id="8_myrg7"]
+[ext_resource type="Script" uid="uid://c0ngv03ig7b5k" path="res://scripts/player/minion_handler.gd" id="9_ugbui"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mx3rh"]
 radius = 68.007355
@@ -16,11 +21,10 @@ radius = 68.007355
 [sub_resource type="CircleShape2D" id="CircleShape2D_cslih"]
 radius = 61.008198
 
-[node name="player" type="CharacterBody2D" unique_id=1895177123 node_paths=PackedStringArray("camera", "minion_manager", "entity_state_machine", "entity_movement", "entity_health")]
+[node name="player" type="CharacterBody2D" unique_id=1895177123 node_paths=PackedStringArray("camera", "entity_state_machine", "entity_movement", "entity_health")]
 collision_layer = 4
 script = ExtResource("1_dovo2")
 camera = NodePath("camera")
-minion_manager = NodePath("")
 entity_state_machine = NodePath("state_machine")
 entity_movement = NodePath("player_movement")
 entity_health = NodePath("health")
@@ -39,6 +43,30 @@ is_static = false
 position = Vector2(0, -64)
 shape = SubResource("CircleShape2D_mx3rh")
 debug_color = Color(0.4727996, 0, 0.05701869, 0.41960785)
+
+[node name="minion_manager" parent="." unique_id=1534479540 node_paths=PackedStringArray("radial_minion_menu", "selected_minion_indicator", "minion_path", "minion_handler") instance=ExtResource("5_gx1jg")]
+radial_minion_menu = NodePath("radial_minion_menu")
+selected_minion_indicator = NodePath("selected_minion_indicator")
+minion_path = NodePath("minion_path")
+minion_handler = NodePath("minion_handler")
+
+[node name="radial_minion_menu" parent="minion_manager" unique_id=335324687 instance=ExtResource("6_ugbui")]
+
+[node name="selected_minion_indicator" parent="minion_manager" unique_id=1992925831 instance=ExtResource("7_fcs02")]
+visible = false
+
+[node name="minion_path" type="Node2D" parent="minion_manager" unique_id=1530381669 node_paths=PackedStringArray("_timer", "_entity")]
+script = ExtResource("8_myrg7")
+_timer = NodePath("timer")
+_entity = NodePath("../..")
+metadata/_custom_type_script = "uid://b43ekgaafb0iu"
+
+[node name="timer" type="Timer" parent="minion_manager/minion_path" unique_id=625386065]
+process_callback = 0
+wait_time = 0.2
+
+[node name="minion_handler" type="Node2D" parent="minion_manager" unique_id=172772867]
+script = ExtResource("9_ugbui")
 
 [node name="player_movement" parent="." unique_id=1822100679 instance=ExtResource("4_0owmy")]
 movement_speed = 450.0

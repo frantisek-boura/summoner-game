@@ -2,13 +2,6 @@
 class_name Minion
 extends Entity
 
-@onready var minion_manager: MinionManager = get_parent() as MinionManager
-
-var index: int = 0
-
-var minion_movement: MinionMovement:
-	get:
-		return entity_movement as MinionMovement
-var minion_state_machine: MinionStateMachine:
-	get: 
-		return entity_state_machine as MinionStateMachine
+@onready var movement: MinionMovement = entity_movement as MinionMovement
+@onready var state_machine: MinionStateMachine = entity_state_machine as MinionStateMachine
+@onready var health: EntityHealth = entity_health as EntityHealth
