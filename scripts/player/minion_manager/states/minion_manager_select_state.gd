@@ -1,4 +1,4 @@
-class_name MinionManagerIdleState
+class_name MinionManagerSelectState
 extends State
 
 @export var minion_manager: MinionManager
@@ -7,16 +7,16 @@ func _ready() -> void:
 	assert(minion_manager != null, "MINION MANAGER IDLE STATE: Stateful node not set")
 
 func enter() -> void:
-	minion_manager.group_change_state("minion_move_to_entity_state")
+	pass
 	
 func exit() -> void:
-	minion_manager.minion_path.reset_points()
+	pass
 
 func frames(_delta: float) -> void:
 	pass
 
-func physics(delta: float) -> void:
-	minion_manager.inc_angle(delta)
+func physics(_delta: float) -> void:
+	pass
 
 func input_process(_delta: float) -> void:
 	pass

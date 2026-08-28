@@ -14,6 +14,10 @@
 [ext_resource type="PackedScene" uid="uid://dqh5ljvowxgjy" path="res://scenes/ui/radial_minion_menu/selected_minion_indicator.tscn" id="7_fcs02"]
 [ext_resource type="Script" uid="uid://b43ekgaafb0iu" path="res://scripts/player/minion_manager/minion_path.gd" id="8_myrg7"]
 [ext_resource type="Script" uid="uid://c0ngv03ig7b5k" path="res://scripts/player/minion_handler.gd" id="9_ugbui"]
+[ext_resource type="PackedScene" uid="uid://dnad2wc7xlfkc" path="res://scenes/player/minion_manager/minion_manager_state_machine.tscn" id="10_fcs02"]
+[ext_resource type="PackedScene" uid="uid://qkdgutf2mu13" path="res://scenes/player/minion/minion.tscn" id="10_uf5tr"]
+[ext_resource type="PackedScene" uid="uid://b6sh36d38er63" path="res://scenes/player/minion_manager/states/minion_manager_follow_state.tscn" id="11_kvlxm"]
+[ext_resource type="PackedScene" uid="uid://c5ef5moa8riob" path="res://scenes/player/minion_manager/states/minion_manager_select_state.tscn" id="12_uf5tr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mx3rh"]
 radius = 68.007355
@@ -44,11 +48,12 @@ position = Vector2(0, -64)
 shape = SubResource("CircleShape2D_mx3rh")
 debug_color = Color(0.4727996, 0, 0.05701869, 0.41960785)
 
-[node name="minion_manager" parent="." unique_id=1534479540 node_paths=PackedStringArray("radial_minion_menu", "selected_minion_indicator", "minion_path", "minion_handler") instance=ExtResource("5_gx1jg")]
+[node name="minion_manager" parent="." unique_id=1534479540 node_paths=PackedStringArray("radial_minion_menu", "selected_minion_indicator", "minion_path", "minion_handler", "state_machine") instance=ExtResource("5_gx1jg")]
 radial_minion_menu = NodePath("radial_minion_menu")
 selected_minion_indicator = NodePath("selected_minion_indicator")
 minion_path = NodePath("minion_path")
 minion_handler = NodePath("minion_handler")
+state_machine = NodePath("minion_manager_state_machine")
 
 [node name="radial_minion_menu" parent="minion_manager" unique_id=335324687 instance=ExtResource("6_ugbui")]
 
@@ -67,6 +72,29 @@ wait_time = 0.2
 
 [node name="minion_handler" type="Node2D" parent="minion_manager" unique_id=172772867]
 script = ExtResource("9_ugbui")
+
+[node name="minion" parent="minion_manager/minion_handler" unique_id=72757938 instance=ExtResource("10_uf5tr")]
+
+[node name="minion2" parent="minion_manager/minion_handler" unique_id=1678850809 instance=ExtResource("10_uf5tr")]
+
+[node name="minion6" parent="minion_manager/minion_handler" unique_id=2093589609 instance=ExtResource("10_uf5tr")]
+
+[node name="minion7" parent="minion_manager/minion_handler" unique_id=996174829 instance=ExtResource("10_uf5tr")]
+
+[node name="minion3" parent="minion_manager/minion_handler" unique_id=788512564 instance=ExtResource("10_uf5tr")]
+
+[node name="minion4" parent="minion_manager/minion_handler" unique_id=1451647907 instance=ExtResource("10_uf5tr")]
+
+[node name="minion5" parent="minion_manager/minion_handler" unique_id=377745753 instance=ExtResource("10_uf5tr")]
+
+[node name="minion_manager_state_machine" parent="minion_manager" unique_id=1920102366 node_paths=PackedStringArray("beginning_state") instance=ExtResource("10_fcs02")]
+beginning_state = NodePath("minion_manager_select_state")
+
+[node name="minion_manager_follow_state" parent="minion_manager/minion_manager_state_machine" unique_id=1396733951 node_paths=PackedStringArray("minion_manager") instance=ExtResource("11_kvlxm")]
+minion_manager = NodePath("../..")
+
+[node name="minion_manager_select_state" parent="minion_manager/minion_manager_state_machine" unique_id=1223317756 node_paths=PackedStringArray("minion_manager") instance=ExtResource("12_uf5tr")]
+minion_manager = NodePath("../..")
 
 [node name="player_movement" parent="." unique_id=1822100679 instance=ExtResource("4_0owmy")]
 movement_speed = 450.0

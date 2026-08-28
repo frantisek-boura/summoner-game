@@ -17,12 +17,15 @@ radius = 29.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_fqypg"]
 radius = 35.057095
 
-[node name="minion" type="CharacterBody2D" unique_id=72757938]
+[node name="minion" type="CharacterBody2D" unique_id=72757938 node_paths=PackedStringArray("entity_state_machine", "entity_movement", "entity_health")]
 top_level = true
 collision_layer = 2
 collision_mask = 0
 platform_on_leave = 2
 script = ExtResource("1_ksga3")
+entity_state_machine = NodePath("minion_state_machine")
+entity_movement = NodePath("minion_movement")
+entity_health = NodePath("health")
 metadata/_custom_type_script = "uid://bk3lkl27i1ssr"
 
 [node name="sprite" type="Sprite2D" parent="." unique_id=1992417167]

@@ -19,8 +19,9 @@ func frames(_delta: float) -> void:
 	pass
 
 func physics(delta: float) -> void:
-	var entity_position: Vector2 = minion.minion_manager.get_entity_position()
-	minion.minion_movement.lock_in_position(delta, entity_position)
+	#var entity_position: Vector2 = minion.minion_manager.get_entity_position()
+	#minion.minion_movement.lock_in_position(delta, entity_position)
+	pass
 
 func input_process(_delta: float) -> void:
 	pass
@@ -29,5 +30,5 @@ func input_event(_event: InputEvent) -> void:
 	pass
 	
 func _on_timeout() -> void:
-	minion.minion_state_machine.change_state_safe("minion_follow_state")
+	#minion.minion_state_machine.change_state_safe("minion_follow_state")
 	timer.stop()

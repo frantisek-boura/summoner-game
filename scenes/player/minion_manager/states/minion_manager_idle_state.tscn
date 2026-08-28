@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://c5ef5moa8riob"]
-
-[ext_resource type="Script" uid="uid://dxw70tygik5nb" path="res://scripts/player/minion_manager/states/minion_manager_idle_state.gd" id="1_imeqh"]
-
-[node name="minion_manager_idle_state" type="Node" unique_id=1223317756]
-script = ExtResource("1_imeqh")

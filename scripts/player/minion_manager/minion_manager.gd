@@ -9,43 +9,37 @@ const IDLE_RADIUS_Y_MULTIPLIER: float = 0.5
 @export var selected_minion_indicator: SelectedMinionIndicator
 @export var minion_path: MinionPath
 @export var minion_handler: MinionHandler
+@export var state_machine: MinionManagerStateMachine
 @export_range(0, 1, 0.001) var idle_rotation_speed: float = 0.3
 
 @onready var entity: Entity = get_parent() as Entity
 
-#var selected_minion: Minion = null
-#var is_idling: bool = false
-#var angle: float = 0
-#var _minions: Array[Minion] = []
-#var _forcible_minions: Array[Minion] = []
-#var _by_index: Callable = func(m1: Minion, m2: Minion): return m1.index < m2.index
-#
-#signal forcible_minions_changed(minions: Array[Minion])
-#
-#func _ready() -> void:
-	#assert(radial_minion_menu != null, "MINION MANAGER: Radial Minion Menu not set.")
-	#assert(selected_minion_indicator != null, "MINION MANAGER: Selected Minion Indicator not set.")
-	#assert(minion_path != null, "MINION MANAGER: Minion Path not set.")
-	#assert(entity != null, "MINION MANAGER: Entity not set.")
-	#
-	#child_entered_tree.connect(_scan_minions.bind(false))
-	#child_exiting_tree.connect(_scan_minions.bind(true))
-	#radial_minion_menu.minion_selected.connect(_on_minion_selected)
-	#
-	#_scan_minions(null, false)
-#
-#func _physics_process(delta: float) -> void:
-	#_inc_angle(delta)
-#
-### Increases internal [member MinionManager.angle] value used for determining current idle position of each minion.
-### Takes [float] [param delta] as increment.
-#func _inc_angle(delta: float) -> void:
-	#angle -= delta * idle_rotation_speed
-#
-#func _on_minion_selected(minion: Minion) -> void:
-	#selected_minion = minion
-	#selected_minion_indicator.enable(minion)
-#
+var selected_minion: Minion = null
+var angle: float = 0
+
+func _ready() -> void:
+	assert(radial_minion_menu != null, "MINION MANAGER: Radial Minion Menu not set.")
+	assert(selected_minion_indicator != null, "MINION MANAGER: Selected Minion Indicator not set.")
+	assert(minion_path != null, "MINION MANAGER: Minion Path not set.")
+	assert(minion_handler != null, "MINION MANAGER: Minion Handler not set.")
+	assert(state_machine != null, "MINION MANAGER: State Machine not set.")
+	assert(entity != null, "MINION MANAGER: Entity not set.")
+	
+	radial_minion_menu.minion_selected.connect(_on_minion_selected)
+	minion_handler.minion_tree_changed.connect(_on_minion_tree_changed)
+
+## Increases internal [member MinionManager.angle] value used for determining current idle position of each minion.
+## Takes [float] [param delta] as increment.
+func inc_angle(delta: float) -> void:
+	angle -= delta * idle_rotation_speed
+
+func _on_minion_selected(minion: Minion) -> void:
+	selected_minion = minion
+	selected_minion_indicator.enable(minion)
+
+func _on_minion_tree_changed(new_minion: Minion = null) -> void:
+	print("xd")
+
 ### Scans child nodes for minions and adds them to [member MinionManager._minions].
 ### Is invoked on _ready and whenever a node enters/leaves child tree of [MinionManager]
 #func _scan_minions(node: Node, is_deleting: bool) -> void:

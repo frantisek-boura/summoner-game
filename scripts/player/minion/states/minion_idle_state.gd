@@ -16,11 +16,12 @@ func frames(_delta: float) -> void:
 	pass
 
 func physics(delta: float) -> void:
-	var idle_position: Vector2 = minion.minion_movement.get_idle_position()
-	if not minion.minion_movement.has_arrived(idle_position):
-		minion.minion_movement.idle_around(delta, idle_position)
-	else:
-		minion.minion_movement.lock_in_position(delta, idle_position)
+	#var idle_position: Vector2 = minion.minion_movement.get_idle_position()
+	#if not minion.minion_movement.has_arrived(idle_position):
+		#minion.minion_movement.idle_around(delta, idle_position)
+	#else:
+		#minion.minion_movement.lock_in_position(delta, idle_position)
+	pass
 
 func input_process(_delta: float) -> void:
 	pass

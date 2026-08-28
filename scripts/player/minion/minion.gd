@@ -2,6 +2,11 @@
 class_name Minion
 extends Entity
 
-@onready var movement: MinionMovement = entity_movement as MinionMovement
-@onready var state_machine: MinionStateMachine = entity_state_machine as MinionStateMachine
-@onready var health: EntityHealth = entity_health as EntityHealth
+var movement: MinionMovement
+var state_machine: MinionStateMachine
+var health: EntityHealth
+
+func _enter_tree() -> void:
+	movement = entity_movement as MinionMovement
+	state_machine = entity_state_machine as MinionStateMachine
+	health = entity_health as EntityHealth
