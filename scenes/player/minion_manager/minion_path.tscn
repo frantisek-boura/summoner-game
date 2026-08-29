@@ -1,7 +1,13 @@
-[gd_scene format=3 uid="uid://tindbr5hba6a"]
+[gd_scene format=3 uid="uid://cwck7ywhm1pq5"]
 
 [ext_resource type="Script" uid="uid://b43ekgaafb0iu" path="res://scripts/player/minion_manager/minion_path.gd" id="1_mv85x"]
 
-[node name="minion_path" type="Node2D" unique_id=182940652]
+[node name="minion_path" type="Node2D" unique_id=1526343689 node_paths=PackedStringArray("update_timer")]
 top_level = true
 script = ExtResource("1_mv85x")
+update_timer = NodePath("timer")
+metadata/_custom_type_script = "uid://b43ekgaafb0iu"
+
+[node name="timer" type="Timer" parent="." unique_id=1718975064]
+process_callback = 0
+wait_time = 0.2

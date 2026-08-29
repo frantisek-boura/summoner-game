@@ -27,50 +27,49 @@ func _ready() -> void:
 	
 	radial_minion_menu.minion_selected.connect(_on_minion_selected)
 	minion_handler.minion_tree_changed.connect(_on_minion_tree_changed)
+	minion_path.update_timer.timeout.connect(_on_path_updated)
+	
+	minion_handler.reorganize_minions()
+	minion_path.init_points(entity.global_position, len(minion_handler.forcible_minions))
 
 ## Increases internal [member MinionManager.angle] value used for determining current idle position of each minion.
 ## Takes [float] [param delta] as increment.
 func inc_angle(delta: float) -> void:
 	angle -= delta * idle_rotation_speed
+	
+func enable_path_updates() -> void:
+	minion_path.start_update_timer()
+	
+func disable_path_updates() -> void:
+	minion_path.stop_update_timer()
+
+func change_to_select_state() -> void:
+	state_machine.change_state("minion_manager_select_state")
+
+func change_to_follow_state() -> void:
+	state_machine.change_state("minion_manager_follow_state")
+
+func _update_minion_follow_points() -> void:
+	for minion: Minion in minion_handler.forcible_minions.keys():
+		var path_index: int = minion_handler.forcible_minions[minion]
+		var follow_position: Vector2 = minion_path.points[path_index].global_position
+		minion.set_follow_path(follow_position)
 
 func _on_minion_selected(minion: Minion) -> void:
 	selected_minion = minion
 	selected_minion_indicator.enable(minion)
 
-func _on_minion_tree_changed(new_minion: Minion = null) -> void:
-	print("xd")
+func _on_minion_tree_changed(_new_minion: Minion = null) -> void:
+	if len(minion_handler.minions) >= len(minion_path.points) - 1:
+		minion_path.extend_points(entity.global_position)
+	_update_minion_follow_points()
+	for m: Minion in minion_handler.forcible_minions.keys():
+		print(m.movement.follow_position)
 
-### Scans child nodes for minions and adds them to [member MinionManager._minions].
-### Is invoked on _ready and whenever a node enters/leaves child tree of [MinionManager]
-#func _scan_minions(node: Node, is_deleting: bool) -> void:
-	#var new_minions: Array[Minion] = []
-	#var new_minion_count: int = 0
-	#var new_forcible_minions: Array[Minion] = []
-	#
-	#for minion: Minion in get_children().filter(func(c: Node): return c is Minion):
-		#if minion == node and is_deleting:
-			#minion.minion_state_machine.forcible_changed.disconnect(_on_forcible_changed.bind(minion))
-			#continue
-	#
-		#if not minion.minion_state_machine.forcible_changed.is_connected(_on_forcible_changed.bind(minion)):
-			#minion.minion_state_machine.forcible_changed.connect(_on_forcible_changed.bind(minion))
-		#
-		#new_minion_count += 1
-		#minion.index = new_minion_count
-		#new_minions.append(minion)
-		#
-		#if not minion.minion_state_machine.is_forcible(): 
-			#continue
-		#new_forcible_minions.append(minion)
-	#
-	#new_minions.sort_custom(_by_index)
-	#new_forcible_minions.sort_custom(_by_index)
-	#
-	#_minions = new_minions
-	#_forcible_minions = new_forcible_minions
-	#minion_path.init_points(len(_forcible_minions))
-	#radial_minion_menu.set_options(_forcible_minions)
-	#
+func _on_path_updated() -> void:
+	minion_path.update_point(entity.global_position)
+	_update_minion_follow_points()
+
 ### Forces minions that can be forced into the idle state.
 #func idle_minions() -> void:
 	#for minion: Minion in _forcible_minions:

@@ -2,7 +2,7 @@
 class_name EntityMovement
 extends Node
 
-const HAS_ARRIVED_DETECTION_RADIUS: float = 50.0
+const HAS_ARRIVED_DETECTION_RADIUS: float = 10.0
 
 @export_range(10, 1000, 1) var movement_speed: float = 250.0
 @export_range(10, 100, 1) var move_acceleration_speed: float = 50.0

@@ -7,8 +7,18 @@ extends EntityMovement
 @export_range(10, 1000, 1) var follow_acceleration_speed: float = 10
 
 var minion: Minion:
-	get:
+	get: 
 		return _entity as Minion
+var follow_position: Vector2
+
+## Moves this minion towards the owner entity's position.
+func follow_path() -> void:
+	_direction = minion.global_position.direction_to(follow_position)
+	
+	minion.velocity.x = move_toward(minion.velocity.x, _direction.x * follow_movement_speed, follow_acceleration_speed)
+	minion.velocity.y = move_toward(minion.velocity.y, _direction.y * follow_movement_speed, follow_acceleration_speed)
+	
+	minion.move_and_slide()
 
 ## Calculates the current idling position of this minion.
 func get_idle_position() -> Vector2:
@@ -47,12 +57,3 @@ func lock_in_position(delta: float, new_position: Vector2) -> void:
 	
 	minion.move_and_slide()
 	
-## Moves this minion towards the owner entity's position.
-func follow_path() -> void:
-	var point_position: Vector2 = minion.minion_manager.minion_path.get_follow_position(minion.index)
-	_direction = minion.global_position.direction_to(point_position)
-	
-	minion.velocity.x = move_toward(minion.velocity.x, _direction.x * follow_movement_speed, follow_acceleration_speed)
-	minion.velocity.y = move_toward(minion.velocity.y, _direction.y * follow_movement_speed, follow_acceleration_speed)
-	
-	minion.move_and_slide()

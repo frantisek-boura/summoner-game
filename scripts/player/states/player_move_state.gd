@@ -7,12 +7,10 @@ func _ready() -> void:
 	assert(player != null, "PLAYER MOVE STATE: Stateful node not set")
 
 func enter() -> void:
-	pass
-	#player.minion_manager.minion_path.enable_updates()
+	player.enable_path_updates()
 
 func exit() -> void:
-	pass
-	#player.minion_manager.minion_path.disable_updates()
+	player.disable_path_updates()
 
 func frames(_delta: float) -> void:
 	pass

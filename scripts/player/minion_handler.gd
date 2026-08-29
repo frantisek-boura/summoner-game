@@ -15,10 +15,11 @@ signal forcible_minions_changed(is_enabled: bool, new_minion: Minion)
 func _ready() -> void:
 	child_entered_tree.connect(_on_minion_tree_changed.bind(false))
 	child_exiting_tree.connect(_on_minion_tree_changed.bind(true))
-	
-	_reorganize_minions()
 
 # TODO: Minion Add/Remove methods.
+
+func reorganize_minions() -> void:
+	_reorganize_minions(null, false)
 
 func _reorganize_minions(target_node: Node = null, is_deleting: bool = false) -> void:
 	var new_minions: Dictionary[Minion, int] = {}

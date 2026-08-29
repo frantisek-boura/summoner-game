@@ -7,7 +7,7 @@ func _ready() -> void:
 	assert(player != null, "PLAYER IDLE STATE: Stateful node not set")
 
 func enter() -> void:
-	pass
+	player.minion_manager_follow()
 
 func exit() -> void:
 	pass

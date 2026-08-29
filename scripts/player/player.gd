@@ -8,6 +8,18 @@ extends Entity
 @onready var state_machine: StateMachine = entity_state_machine as StateMachine
 @onready var health: EntityHealth = entity_health as EntityHealth
 
+func enable_path_updates() -> void:
+	minion_manager.enable_path_updates()
+	
+func disable_path_updates() -> void:
+	minion_manager.disable_path_updates()
+
+func minion_manager_follow() -> void:
+	minion_manager.change_to_follow_state()
+	
+func minion_manager_select() -> void:
+	minion_manager.change_to_select_state()
+
 ## Moves the player using its [member Player.movement] component.
 func move_with_input() -> void:
 	movement.move()

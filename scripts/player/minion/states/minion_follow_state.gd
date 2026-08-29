@@ -16,12 +16,10 @@ func frames(_delta: float) -> void:
 	pass
 
 func physics(_delta: float) -> void:
-	#var path_point: Vector2 = minion.minion_manager.minion_path.get_follow_position(minion)
-	#if not minion.minion_movement.has_arrived(path_point):
-		#minion.minion_movement.follow_path()
-	#else:
-		#minion.minion_movement.stop()
-	pass
+	if minion.has_arrived_to_follow_position():
+		minion.stop()
+	else:
+		minion.follow_path()
 
 func input_process(_delta: float) -> void:
 	pass

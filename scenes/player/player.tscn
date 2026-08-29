@@ -12,8 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://cjcv1c550dax3" path="res://scenes/player/states/player_move_state.tscn" id="6_0owmy"]
 [ext_resource type="PackedScene" uid="uid://c4jablrvqtyog" path="res://scenes/ui/radial_minion_menu/radial_minion_menu.tscn" id="6_ugbui"]
 [ext_resource type="PackedScene" uid="uid://dqh5ljvowxgjy" path="res://scenes/ui/radial_minion_menu/selected_minion_indicator.tscn" id="7_fcs02"]
-[ext_resource type="Script" uid="uid://b43ekgaafb0iu" path="res://scripts/player/minion_manager/minion_path.gd" id="8_myrg7"]
-[ext_resource type="Script" uid="uid://c0ngv03ig7b5k" path="res://scripts/player/minion_handler.gd" id="9_ugbui"]
+[ext_resource type="PackedScene" uid="uid://cwck7ywhm1pq5" path="res://scenes/player/minion_manager/minion_path.tscn" id="9_kvlxm"]
+[ext_resource type="PackedScene" uid="uid://tindbr5hba6a" path="res://scenes/player/minion_manager/minion_handler.tscn" id="9_uf5tr"]
 [ext_resource type="PackedScene" uid="uid://dnad2wc7xlfkc" path="res://scenes/player/minion_manager/minion_manager_state_machine.tscn" id="10_fcs02"]
 [ext_resource type="PackedScene" uid="uid://qkdgutf2mu13" path="res://scenes/player/minion/minion.tscn" id="10_uf5tr"]
 [ext_resource type="PackedScene" uid="uid://b6sh36d38er63" path="res://scenes/player/minion_manager/states/minion_manager_follow_state.tscn" id="11_kvlxm"]
@@ -25,10 +25,11 @@ radius = 68.007355
 [sub_resource type="CircleShape2D" id="CircleShape2D_cslih"]
 radius = 61.008198
 
-[node name="player" type="CharacterBody2D" unique_id=1895177123 node_paths=PackedStringArray("camera", "entity_state_machine", "entity_movement", "entity_health")]
+[node name="player" type="CharacterBody2D" unique_id=1895177123 node_paths=PackedStringArray("camera", "minion_manager", "entity_state_machine", "entity_movement", "entity_health")]
 collision_layer = 4
 script = ExtResource("1_dovo2")
 camera = NodePath("camera")
+minion_manager = NodePath("minion_manager")
 entity_state_machine = NodePath("state_machine")
 entity_movement = NodePath("player_movement")
 entity_health = NodePath("health")
@@ -60,32 +61,15 @@ state_machine = NodePath("minion_manager_state_machine")
 [node name="selected_minion_indicator" parent="minion_manager" unique_id=1992925831 instance=ExtResource("7_fcs02")]
 visible = false
 
-[node name="minion_path" type="Node2D" parent="minion_manager" unique_id=1530381669 node_paths=PackedStringArray("_timer", "_entity")]
-script = ExtResource("8_myrg7")
-_timer = NodePath("timer")
-_entity = NodePath("../..")
-metadata/_custom_type_script = "uid://b43ekgaafb0iu"
+[node name="minion_path" parent="minion_manager" unique_id=1526343689 instance=ExtResource("9_kvlxm")]
 
-[node name="timer" type="Timer" parent="minion_manager/minion_path" unique_id=625386065]
-process_callback = 0
-wait_time = 0.2
-
-[node name="minion_handler" type="Node2D" parent="minion_manager" unique_id=172772867]
-script = ExtResource("9_ugbui")
+[node name="minion_handler" parent="minion_manager" unique_id=330277761 instance=ExtResource("9_uf5tr")]
 
 [node name="minion" parent="minion_manager/minion_handler" unique_id=72757938 instance=ExtResource("10_uf5tr")]
 
-[node name="minion2" parent="minion_manager/minion_handler" unique_id=1678850809 instance=ExtResource("10_uf5tr")]
+[node name="minion2" parent="minion_manager/minion_handler" unique_id=1335872083 instance=ExtResource("10_uf5tr")]
 
-[node name="minion6" parent="minion_manager/minion_handler" unique_id=2093589609 instance=ExtResource("10_uf5tr")]
-
-[node name="minion7" parent="minion_manager/minion_handler" unique_id=996174829 instance=ExtResource("10_uf5tr")]
-
-[node name="minion3" parent="minion_manager/minion_handler" unique_id=788512564 instance=ExtResource("10_uf5tr")]
-
-[node name="minion4" parent="minion_manager/minion_handler" unique_id=1451647907 instance=ExtResource("10_uf5tr")]
-
-[node name="minion5" parent="minion_manager/minion_handler" unique_id=377745753 instance=ExtResource("10_uf5tr")]
+[node name="minion3" parent="minion_manager/minion_handler" unique_id=518203392 instance=ExtResource("10_uf5tr")]
 
 [node name="minion_manager_state_machine" parent="minion_manager" unique_id=1920102366 node_paths=PackedStringArray("beginning_state") instance=ExtResource("10_fcs02")]
 beginning_state = NodePath("minion_manager_select_state")
