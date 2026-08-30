@@ -55,6 +55,7 @@ selected_minion_indicator = NodePath("selected_minion_indicator")
 minion_path = NodePath("minion_path")
 minion_handler = NodePath("minion_handler")
 state_machine = NodePath("minion_manager_state_machine")
+minion_types = Array[PackedScene]([ExtResource("10_uf5tr")])
 
 [node name="radial_minion_menu" parent="minion_manager" unique_id=335324687 instance=ExtResource("6_ugbui")]
 
@@ -72,6 +73,8 @@ visible = false
 [node name="minion3" parent="minion_manager/minion_handler" unique_id=518203392 instance=ExtResource("10_uf5tr")]
 
 [node name="minion4" parent="minion_manager/minion_handler" unique_id=875002325 instance=ExtResource("10_uf5tr")]
+
+[node name="minion5" parent="minion_manager/minion_handler" unique_id=1401653836 instance=ExtResource("10_uf5tr")]
 
 [node name="minion_manager_state_machine" parent="minion_manager" unique_id=1920102366 node_paths=PackedStringArray("beginning_state") instance=ExtResource("10_fcs02")]
 beginning_state = NodePath("minion_manager_select_state")

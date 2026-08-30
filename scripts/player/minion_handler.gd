@@ -18,6 +18,13 @@ func _ready() -> void:
 
 # TODO: Minion Add/Remove methods. Has to check maximum mininos when adding.
 
+func add_minion(minion_scene: PackedScene, new_position: Vector2) -> void:
+	if len(minions) >= MinionManager.MAX_MINIONS_COUNT:
+		return
+	var minion: Minion = minion_scene.instantiate()
+	minion.global_position = new_position
+	add_child(minion)
+
 func reorganize_minions() -> void:
 	_reorganize_minions(null, false)
 

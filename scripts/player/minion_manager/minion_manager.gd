@@ -12,6 +12,7 @@ const IDLE_RADIUS_Y_MULTIPLIER: float = 0.5
 @export var minion_handler: MinionHandler
 @export var state_machine: MinionManagerStateMachine
 @export_range(0, 1, 0.001) var idle_rotation_speed: float = 0.3
+@export var minion_types: Array[PackedScene] = []
 
 @onready var entity: Entity = get_parent() as Entity
 
@@ -37,6 +38,12 @@ func _ready() -> void:
 ## Takes [float] [param delta] as increment.
 func inc_angle(delta: float) -> void:
 	angle -= delta * idle_rotation_speed
+	
+func add_default_minion() -> void:
+	if len(minion_handler.minions) >= MinionManager.MAX_MINIONS_COUNT:
+		return
+	var minion_position: Vector2 = minion_path.points[len(minion_handler.minions)].global_position
+	minion_handler.add_minion(minion_types[0], minion_position)
 	
 func enable_path_updates() -> void:
 	minion_path.start_update_timer()

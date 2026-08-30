@@ -30,9 +30,8 @@ func input_process(_delta: float) -> void:
 
 func input_event(event: InputEvent) -> void:
 	pass
-	#if event.is_action_pressed("minion_selector") and not player.minion_manager.is_idling:
-		#player.minion_manager.idle_minions()
-		#player.camera.zoom_to_idle()
+	if event.is_action_pressed("minion_selector"):
+		player.minion_manager.add_default_minion()
 	#if event.is_action_released("minion_selector") and player.minion_manager.is_idling:
 		#player.minion_manager.radial_minion_menu.make_selection()
 		#player.minion_manager.follow_minions()
