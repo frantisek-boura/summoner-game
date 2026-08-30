@@ -2,6 +2,7 @@
 class_name MinionManager
 extends Node2D
 
+const MAX_MINIONS_COUNT: int = 12
 const IDLE_RADIUS: float = 300.0
 const IDLE_RADIUS_Y_MULTIPLIER: float = 0.5
 
@@ -30,7 +31,7 @@ func _ready() -> void:
 	minion_path.update_timer.timeout.connect(_on_path_updated)
 	
 	minion_handler.reorganize_minions()
-	minion_path.init_points(entity.global_position, len(minion_handler.forcible_minions))
+	minion_path.init_points(entity.global_position)
 
 ## Increases internal [member MinionManager.angle] value used for determining current idle position of each minion.
 ## Takes [float] [param delta] as increment.
@@ -60,8 +61,6 @@ func _on_minion_selected(minion: Minion) -> void:
 	selected_minion_indicator.enable(minion)
 
 func _on_minion_tree_changed(_new_minion: Minion = null) -> void:
-	if len(minion_handler.minions) >= len(minion_path.points) - 1:
-		minion_path.extend_points(entity.global_position)
 	_update_minion_follow_points()
 	for m: Minion in minion_handler.forcible_minions.keys():
 		print(m.movement.follow_position)

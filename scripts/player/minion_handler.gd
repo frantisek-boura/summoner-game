@@ -16,7 +16,7 @@ func _ready() -> void:
 	child_entered_tree.connect(_on_minion_tree_changed.bind(false))
 	child_exiting_tree.connect(_on_minion_tree_changed.bind(true))
 
-# TODO: Minion Add/Remove methods.
+# TODO: Minion Add/Remove methods. Has to check maximum mininos when adding.
 
 func reorganize_minions() -> void:
 	_reorganize_minions(null, false)
@@ -29,7 +29,8 @@ func _reorganize_minions(target_node: Node = null, is_deleting: bool = false) ->
 	var new_forcible_minion_count: int = 0
 	for minion: Minion in get_children():
 		if minion == target_node and is_deleting:
-			minion.state_machine.forcible_changed.disconnect(_on_forcible_changed.bind(minion))
+			if minion.state_machine.forcible_changed.is_connected(_on_forcible_changed.bind(minion)):
+				minion.state_machine.forcible_changed.disconnect(_on_forcible_changed.bind(minion))
 			continue
 	
 		if not minion.state_machine.forcible_changed.is_connected(_on_forcible_changed.bind(minion)):
@@ -46,6 +47,10 @@ func _reorganize_minions(target_node: Node = null, is_deleting: bool = false) ->
 	forcible_minions = new_forcible_minions
 
 func _on_minion_tree_changed(target_node: Node = null, is_deleting: bool = false) -> void:
+	if len(get_children()) > MinionManager.MAX_MINIONS_COUNT and not is_deleting:
+		target_node.queue_free()
+		return
+	
 	_reorganize_minions(target_node, is_deleting)
 	minion_tree_changed.emit(target_node as Minion if not is_deleting else null)
 

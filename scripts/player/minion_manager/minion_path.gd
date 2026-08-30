@@ -22,20 +22,12 @@ func update_point(new_position: Vector2) -> void:
 	var back: Node2D = points.pop_back()
 	back.global_position = new_position
 	points.push_front(back)
-	
-## Used to double the amount of points.
-func extend_points(new_position: Vector2) -> void:
-	for _i in len(points):
-		var point: Node2D = Node2D.new()
-		point.global_position = new_position
-		points.append(point)
-		add_child(point)
 
-## Initializes [param count] amount of points at [param origin_position] position.
-func init_points(origin_position: Vector2, count: int) -> void:
+## Initializes [const MinionManager.MAX_MINIONS_COUNT] amount of points at [param origin_position] position.
+func init_points(origin_position: Vector2) -> void:
 	_clear_points()
 	
-	for _i in count * 2:
+	for _i in MinionManager.MAX_MINIONS_COUNT:
 		var point: Node2D = Node2D.new()
 		point.global_position = origin_position
 		points.append(point)
