@@ -62,6 +62,11 @@ func change_to_select_state() -> void:
 func change_to_follow_state() -> void:
 	state_machine.change_state("minion_manager_follow_state")
 
+func update_minion_select_positions() -> void:
+	for minion: Minion in minion_handler.forcible_minions.keys():
+		var forcible_minions_index: int = minion_handler.forcible_minions[minion]
+		minion.set_select_position(angle, entity.global_position, len(minion_handler.forcible_minions), forcible_minions_index) 
+
 func _update_minion_follow_points() -> void:
 	for minion: Minion in minion_handler.forcible_minions.keys():
 		var path_index: int = minion_handler.forcible_minions[minion]
@@ -72,13 +77,23 @@ func _on_minion_selected(minion: Minion) -> void:
 	selected_minion = minion
 	selected_minion_indicator.enable(minion)
 
-func _on_minion_tree_changed(_new_minion: Minion = null) -> void:
+func _change_new_minion_state(new_minion: Minion) -> void:
+	var current_state: String = state_machine.get_current_state().name
+	if current_state == "minion_manager_follow_state":
+		new_minion.force_to_follow_state()
+	elif current_state == "minion_manager_select_state":
+		new_minion.force_to_select_state()
+
+func _on_minion_tree_changed(new_minion: Minion = null) -> void:
 	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
 	_update_minion_follow_points()
+	call_deferred("_change_new_minion_state", new_minion)
 	
-func _on_forcible_minions_changed() -> void:
+func _on_forcible_minions_changed(is_enabled: bool, new_minion: Minion) -> void:
 	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
 	_update_minion_follow_points()
+	if is_enabled:
+		call_deferred("_change_new_minion_state", new_minion)
 	
 func _on_path_updated() -> void:
 	minion_path.update_point(entity.global_position)
@@ -86,7 +101,7 @@ func _on_path_updated() -> void:
 
 func force_minions_select() -> void:
 	for minion: Minion in minion_handler.forcible_minions.keys():
-		minion.state_machine.change_state_safe("minion_idle_state")
+		minion.state_machine.change_state_safe("minion_select_state")
 		
 func force_minions_follow() -> void:
 	for minion: Minion in minion_handler.forcible_minions.keys():

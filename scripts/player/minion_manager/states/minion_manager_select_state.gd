@@ -17,6 +17,7 @@ func frames(_delta: float) -> void:
 
 func physics(delta: float) -> void:
 	minion_manager.inc_angle(delta)
+	minion_manager.update_minion_select_positions()
 
 func input_process(_delta: float) -> void:
 	pass

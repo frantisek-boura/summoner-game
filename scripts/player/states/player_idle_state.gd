@@ -32,8 +32,12 @@ func input_event(event: InputEvent) -> void:
 	pass
 	if event.is_action_pressed("minion_selector"):
 		player.minion_manager.open_selection_menu()
+		player.minion_manager.change_to_select_state()
 	if event.is_action_released("minion_selector"):
 		player.minion_manager.close_selection_menu(true)
+		player.minion_manager.change_to_follow_state()
+	if event.is_action_pressed("escape"):
+		player.minion_manager.add_default_minion()
 	#if event.is_action_released("minion_selector") and player.minion_manager.is_idling:
 		#player.minion_manager.radial_minion_menu.make_selection()
 		#player.minion_manager.follow_minions()

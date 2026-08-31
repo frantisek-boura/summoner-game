@@ -24,5 +24,6 @@ func input_process(_delta: float) -> void:
 	if not player.check_movement():
 		player.change_to_idle_state()
 
-func input_event(_event: InputEvent) -> void:
-	pass
+func input_event(event: InputEvent) -> void:
+	if event.is_action_pressed("escape"):
+		player.minion_manager.add_default_minion()

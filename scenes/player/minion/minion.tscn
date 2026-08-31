@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c05qlldfo5akd" path="res://scenes/utils/depth_detector.tscn" id="3_sfjdw"]
 [ext_resource type="PackedScene" uid="uid://cxhmgommtwlh3" path="res://scenes/player/minion/minion_movement.tscn" id="4_fqypg"]
 [ext_resource type="PackedScene" uid="uid://bk5x6jatv6o80" path="res://scenes/player/minion/minion_state_machine.tscn" id="5_l5d2n"]
-[ext_resource type="PackedScene" uid="uid://bwsnqroe766j7" path="res://scenes/player/minion/states/minion_idle_state.tscn" id="6_8b0ys"]
+[ext_resource type="PackedScene" uid="uid://bwsnqroe766j7" path="res://scenes/player/minion/states/minion_select_state.tscn" id="6_8b0ys"]
 [ext_resource type="PackedScene" uid="uid://wcxtrycj2vlv" path="res://scenes/player/minion/states/minion_follow_state.tscn" id="7_fqypg"]
 [ext_resource type="PackedScene" uid="uid://bye3g4u3nuqp2" path="res://scenes/player/minion/states/minion_still_state.tscn" id="8_sfjdw"]
 [ext_resource type="PackedScene" uid="uid://be3vivt4aqtaa" path="res://scenes/player/minion/states/minion_move_to_entity_state.tscn" id="10_4eqwe"]
@@ -49,7 +49,6 @@ shape = SubResource("CircleShape2D_fqypg")
 debug_color = Color(0.39926603, 0, 0.022066697, 0.41960785)
 
 [node name="minion_movement" parent="." unique_id=248751734 instance=ExtResource("4_fqypg")]
-idle_acceleration_speed = 12.0
 lock_in_acceleration_speed = 15.0
 follow_movement_speed = 400.0
 follow_acceleration_speed = 100.0
@@ -60,7 +59,7 @@ stop_acceleration_speed = 100.0
 [node name="minion_state_machine" parent="." unique_id=1850018547 node_paths=PackedStringArray("beginning_state") instance=ExtResource("5_l5d2n")]
 beginning_state = NodePath("minion_follow_state")
 
-[node name="minion_idle_state" parent="minion_state_machine" unique_id=1223317756 node_paths=PackedStringArray("minion") instance=ExtResource("6_8b0ys")]
+[node name="minion_select_state" parent="minion_state_machine" unique_id=1223317756 node_paths=PackedStringArray("minion") instance=ExtResource("6_8b0ys")]
 minion = NodePath("../..")
 
 [node name="minion_still_state" parent="minion_state_machine" unique_id=1460450958 node_paths=PackedStringArray("minion") instance=ExtResource("8_sfjdw")]
