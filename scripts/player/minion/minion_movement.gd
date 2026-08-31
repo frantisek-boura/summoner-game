@@ -9,11 +9,14 @@ extends EntityMovement
 var minion: Minion:
 	get: 
 		return _entity as Minion
-var follow_position: Vector2
+var _follow_position: Vector2
+
+func set_follow_position(follow_position: Vector2) -> void:
+	_follow_position = follow_position
 
 ## Moves this minion towards the owner entity's position.
 func follow_path() -> void:
-	_direction = minion.global_position.direction_to(follow_position)
+	_direction = minion.global_position.direction_to(_follow_position)
 	
 	minion.velocity.x = move_toward(minion.velocity.x, _direction.x * follow_movement_speed, follow_acceleration_speed)
 	minion.velocity.y = move_toward(minion.velocity.y, _direction.y * follow_movement_speed, follow_acceleration_speed)

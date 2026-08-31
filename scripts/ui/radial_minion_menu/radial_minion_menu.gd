@@ -1,36 +1,52 @@
 @icon("res://addons/at-icons/node2d/pie_chart.svg")
 class_name RadialMinionMenu
 extends Node2D
+## RadialMinionMenu is used as a visual representation for selecting minions.
+##
+## Its responsibilites are keeping track of selectable options, keeping track of one selected option, 
+## and rendering the menu with selectable options.
+## [br]
+## This node is directly controlled by [MinionManager].
 
+## The speed at which the visual expands when [method CanvasItem.show] is called.
 @export_range(0, 100, 0.01) var expand_speed: float = 10.0
+## The background color of the menu visual.
 @export var bkg_color: Color = Color.DIM_GRAY
+## The color of selectable options' separator.
 @export var line_color: Color = Color.LIGHT_GRAY
+## The highlight color of the hovered/selected option.
 @export var selected_color: Color = Color.SLATE_GRAY
+## The width of selectable options' separator.
 @export var line_width: int = 1
 
+## The currently selected option index.
 var _selection: int = 0
+## Collection of selectable options.
 var _options: Array[Minion] = []
+## The radius of the menu.
 var _radius: float = 0
 
+## Emitted when an option is selected. A selection can be made by [method RadialMinionMenu.make_selection].
 signal minion_selected(minion: Minion)
+## Emitted when an option is hovered. This happens when the value of [member RadialMinionMenu._selection] changes.
 signal minion_hovered
 
 func _ready() -> void:
 	hide()
 	
-	visibility_changed.connect(_on_visibility_changed)
+	visibility_changed.connect(func(): if not is_visible_in_tree(): _radius = 0)
 	
+## Marks the current value of [member RadialMinionMenu._selection] as the selected value and closes the menu.
 func make_selection() -> void:
-	if len(_options) != 0:
+	if len(_options) != 0 or len(_options) < _selection:
 		minion_selected.emit(_options[_selection])
+		hide()
 	
+## Changes the selectable options to [param minions].
 func set_options(minions: Array[Minion]) -> void:
 	_options = minions
 	
-func _on_visibility_changed() -> void:
-	if not is_visible_in_tree():
-		_radius = 0
-	
+## Calculates the inner angle of one selectable option's slice.
 func _get_base_alignment_angle() -> float:
 	if _options.is_empty() or not is_instance_valid(_options[0]):
 		return 0

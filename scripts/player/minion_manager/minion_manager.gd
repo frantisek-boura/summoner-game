@@ -1,6 +1,9 @@
 @icon("res://addons/at-icons/node2d/brain.svg")
 class_name MinionManager
 extends Node2D
+## MinionManager controls the entire minion system.
+##
+## This node utilizes nodes like [RadialMinionMenu], [SelectedMinionIndicator], [MinionHandler] and [MinionPath] to control minions.
 
 const MAX_MINIONS_COUNT: int = 12
 const IDLE_RADIUS: float = 300.0
@@ -29,10 +32,12 @@ func _ready() -> void:
 	
 	radial_minion_menu.minion_selected.connect(_on_minion_selected)
 	minion_handler.minion_tree_changed.connect(_on_minion_tree_changed)
+	minion_handler.forcible_minions_changed.connect(_on_forcible_minions_changed)
 	minion_path.update_timer.timeout.connect(_on_path_updated)
 	
 	minion_handler.reorganize_minions()
 	minion_path.init_points(entity.global_position)
+	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
 
 ## Increases internal [member MinionManager.angle] value used for determining current idle position of each minion.
 ## Takes [float] [param delta] as increment.
@@ -68,28 +73,32 @@ func _on_minion_selected(minion: Minion) -> void:
 	selected_minion_indicator.enable(minion)
 
 func _on_minion_tree_changed(_new_minion: Minion = null) -> void:
+	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
 	_update_minion_follow_points()
-	for m: Minion in minion_handler.forcible_minions.keys():
-		print(m.movement.follow_position)
-
+	
+func _on_forcible_minions_changed() -> void:
+	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
+	_update_minion_follow_points()
+	
 func _on_path_updated() -> void:
 	minion_path.update_point(entity.global_position)
 	_update_minion_follow_points()
 
-### Forces minions that can be forced into the idle state.
-#func idle_minions() -> void:
-	#for minion: Minion in _forcible_minions:
-		#minion.minion_state_machine.change_state_safe("minion_idle_state")
-	#is_idling = true
-	#radial_minion_menu.show()
-		#
-### Forces minions that can be forced into the follow state.
-#func follow_minions() -> void:
-	#for minion: Minion in _forcible_minions:
-		#minion.minion_state_machine.change_state_safe("minion_move_to_entity_state")
-	#is_idling = false
-	#radial_minion_menu.hide()
-	#
+func force_minions_select() -> void:
+	for minion: Minion in minion_handler.forcible_minions.keys():
+		minion.state_machine.change_state_safe("minion_idle_state")
+		
+func force_minions_follow() -> void:
+	for minion: Minion in minion_handler.forcible_minions.keys():
+		minion.state_machine.change_state_safe("minion_follow_state")
+		
+func open_selection_menu() -> void:
+	radial_minion_menu.show()
+	
+func close_selection_menu(make_selection: bool) -> void:
+	radial_minion_menu.hide()
+	radial_minion_menu.make_selection()
+
 ### Invoked when the state of a minion's [signal MinionStateMachine.forcible_changed] is emitted.
 ### Handles 
 #func _on_forcible_changed(is_enabled: bool, minion: Minion) -> void:

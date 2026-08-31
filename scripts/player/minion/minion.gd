@@ -21,4 +21,4 @@ func follow_path() -> void:
 	movement.follow_path()
 
 func set_follow_path(follow_position: Vector2) -> void:
-	movement.follow_position = follow_position
+	movement.set_follow_position(follow_position)
