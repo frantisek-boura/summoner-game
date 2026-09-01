@@ -16,10 +16,7 @@ func frames(_delta: float) -> void:
 	pass
 
 func physics(delta: float) -> void:
-	if not minion.has_arrived_to_select_position():
-		minion.movement.move_to_select_position(delta)
-	else:
-		minion.stop()
+	minion.movement.move_select(delta)
 
 func input_process(_delta: float) -> void:
 	pass

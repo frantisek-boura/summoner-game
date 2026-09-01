@@ -49,6 +49,10 @@ func wants_to_move() -> bool:
 func is_moving() -> bool:
 	return _entity.velocity != Vector2.ZERO
 
+## Checks for entity's movement.
+func check_movement() -> bool:
+	return wants_to_move() and can_move()
+
 ## Decides whether this entity can or cannot move.
 ## Takes [bool] [param is_enabled] to decide.
 func enable_movement(is_enabled: bool) -> void:

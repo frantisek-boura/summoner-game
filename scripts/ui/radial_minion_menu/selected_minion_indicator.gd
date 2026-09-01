@@ -59,9 +59,8 @@ func _physics_process(delta: float) -> void:
 	
 ## Used to set target and render the highlight visual.
 func enable(minion: Minion) -> void:
-	disable()
 	_selected_minion = minion
-	_current_position = _selected_minion.global_position
+	_current_position = lerp(_current_position, _selected_minion.global_position, get_physics_process_delta_time() / follow_speed)
 	_radius = min_radius
 	show()
 	

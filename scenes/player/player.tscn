@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cnjw2watliysa"]
 
 [ext_resource type="Script" uid="uid://ecoengxt0qpr" path="res://scripts/player/player.gd" id="1_dovo2"]
-[ext_resource type="Script" uid="uid://djeabau1mxa1e" path="res://scripts/utils/state_machine.gd" id="2_gmlin"]
 [ext_resource type="Script" uid="uid://b3m3ip8weoxd2" path="res://scenes/player/camera.gd" id="2_gx1jg"]
 [ext_resource type="Texture2D" uid="uid://ivhipj63degi" path="res://icon.svg" id="2_lvxji"]
 [ext_resource type="PackedScene" uid="uid://dih8sd3f77efp" path="res://scenes/entity/entity_health.tscn" id="3_0owmy"]
@@ -18,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://qkdgutf2mu13" path="res://scenes/player/minion/minion.tscn" id="10_uf5tr"]
 [ext_resource type="PackedScene" uid="uid://b6sh36d38er63" path="res://scenes/player/minion_manager/states/minion_manager_follow_state.tscn" id="11_kvlxm"]
 [ext_resource type="PackedScene" uid="uid://c5ef5moa8riob" path="res://scenes/player/minion_manager/states/minion_manager_select_state.tscn" id="12_uf5tr"]
+[ext_resource type="PackedScene" uid="uid://dlshkao07sx6i" path="res://scenes/player/player_state_machine.tscn" id="17_uf5tr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mx3rh"]
 radius = 68.007355
@@ -30,7 +30,7 @@ collision_layer = 4
 script = ExtResource("1_dovo2")
 camera = NodePath("camera")
 minion_manager = NodePath("minion_manager")
-entity_state_machine = NodePath("state_machine")
+entity_state_machine = NodePath("player_state_machine")
 entity_movement = NodePath("player_movement")
 entity_health = NodePath("health")
 
@@ -58,9 +58,14 @@ state_machine = NodePath("minion_manager_state_machine")
 minion_types = Array[PackedScene]([ExtResource("10_uf5tr")])
 
 [node name="radial_minion_menu" parent="minion_manager" unique_id=335324687 instance=ExtResource("6_ugbui")]
+expand_speed = 6.0
 
 [node name="selected_minion_indicator" parent="minion_manager" unique_id=1992925831 instance=ExtResource("7_fcs02")]
 visible = false
+min_radius = 40.0
+max_radius = 50.0
+animation_speed = 12.0
+follow_speed = 24.0
 
 [node name="minion_path" parent="minion_manager" unique_id=1526343689 instance=ExtResource("9_kvlxm")]
 
@@ -90,15 +95,13 @@ movement_speed = 450.0
 move_acceleration_speed = 45.0
 stop_acceleration_speed = 80.0
 
-[node name="state_machine" type="Node" parent="." unique_id=897550899 node_paths=PackedStringArray("beginning_state")]
-script = ExtResource("2_gmlin")
+[node name="player_state_machine" parent="." unique_id=523324477 node_paths=PackedStringArray("beginning_state") instance=ExtResource("17_uf5tr")]
 beginning_state = NodePath("player_idle_state")
-metadata/_custom_type_script = "uid://djeabau1mxa1e"
 
-[node name="player_idle_state" parent="state_machine" unique_id=1913843669 node_paths=PackedStringArray("player") instance=ExtResource("5_75vfm")]
+[node name="player_idle_state" parent="player_state_machine" unique_id=1913843669 node_paths=PackedStringArray("player") instance=ExtResource("5_75vfm")]
 player = NodePath("../..")
 
-[node name="player_move_state" parent="state_machine" unique_id=1167808381 node_paths=PackedStringArray("player") instance=ExtResource("6_0owmy")]
+[node name="player_move_state" parent="player_state_machine" unique_id=1167808381 node_paths=PackedStringArray("player") instance=ExtResource("6_0owmy")]
 player = NodePath("../..")
 
 [node name="camera" type="Camera2D" parent="." unique_id=380490572]
@@ -106,7 +109,8 @@ scale = Vector2(0.5, 0.5)
 process_callback = 0
 position_smoothing_enabled = true
 script = ExtResource("2_gx1jg")
-zoom_speed = 10.0
+zoom_speed = 30.0
+zoom_time = 0.3
 
 [node name="collider" type="CollisionShape2D" parent="." unique_id=717725179]
 position = Vector2(0, -64)
