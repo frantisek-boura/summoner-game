@@ -7,43 +7,36 @@ func _ready() -> void:
 	assert(player != null, "PLAYER IDLE STATE: Stateful node not set")
 
 func enter() -> void:
-	player.minion_manager_follow()
+	player.minion_manager.change_to_follow_state()
 
 func exit() -> void:
-	pass
-	#if player.minion_manager.is_idling:
-		#player.minion_manager.follow_minions()
-		#player.camera.zoom_to_default()
+	if player.minion_manager.is_selecting():
+		player.camera.zoom_to_default()
+		player.minion_manager.close_selection_menu(false)
+		player.minion_manager.change_to_follow_state()
 
 func frames(_delta: float) -> void:
 	pass
 
 func physics(_delta: float) -> void:
-	player.stop()
+	player.movement.stop()
 
 func input_process(_delta: float) -> void:
-	player.handle_movement_input()
+	player.movement.handle_movement_input()
 	
-	if player.check_movement():
-		player.change_to_move_state()
+	if player.movement.check_movement():
+		player.state_machine.change_state("player_move_state")
 		
 
 func input_event(event: InputEvent) -> void:
 	pass
-	if event.is_action_pressed("minion_selector"):
+	if event.is_action_pressed("minion_selector") and not player.minion_manager.is_selecting():
+		player.camera.zoom_to_select()
 		player.minion_manager.open_selection_menu()
 		player.minion_manager.change_to_select_state()
-	if event.is_action_released("minion_selector"):
+	if event.is_action_released("minion_selector") and player.minion_manager.is_selecting():
+		player.camera.zoom_to_default()
 		player.minion_manager.close_selection_menu(true)
 		player.minion_manager.change_to_follow_state()
 	if event.is_action_pressed("escape"):
 		player.minion_manager.add_default_minion()
-	#if event.is_action_released("minion_selector") and player.minion_manager.is_idling:
-		#player.minion_manager.radial_minion_menu.make_selection()
-		#player.minion_manager.follow_minions()
-		#player.camera.zoom_to_default()
-	#if event.is_action_released("escape") and player.minion_manager.is_idling:
-		#player.minion_manager.follow_minions()
-		#player.camera.zoom_to_default()
-	#if event.is_action_pressed("set_selected_minion_independent"):
-		#player.minion_manager.set_minion_independent("minion_still_state")

@@ -31,15 +31,19 @@ func set_select_position(angle: float, entity_position: Vector2, forcible_minion
 
 ## Moves this minion towards the idling position.
 ## Takes [Vector2] [param new_position] as the position the minion will be locked in.
-func move_to_select_position(delta: float) -> void:
+func move_select(delta: float) -> void:
 	_direction = minion.global_position.direction_to(_select_position)
 	
 	minion.global_position = minion.global_position.lerp(_select_position, delta * select_acceleration_speed)
 	
 	minion.move_and_slide()
 
+## Checks if this minion has arrived to [member MinionMovement._select_position]
+func has_arrived_select() -> bool:
+	return has_arrived(_select_position)
+
 ## Moves this minion towards the owner entity's position.
-func follow_path() -> void:
+func move_follow() -> void:
 	_direction = minion.global_position.direction_to(_follow_position)
 	
 	minion.velocity.x = move_toward(minion.velocity.x, _direction.x * follow_movement_speed, follow_acceleration_speed)
@@ -47,19 +51,23 @@ func follow_path() -> void:
 	
 	minion.move_and_slide()
 	
-func set_in_position(new_position: Vector2) -> void:
-	_direction = minion.global_position.direction_to(new_position)
+## Checks if this minion has arrived to [member MinionMovement._follow_position]
+func has_arrived_follow() -> bool:
+	return has_arrived(_follow_position)
 	
-	minion.global_position = new_position
-	
-	minion.move_and_slide()
-	
-## Locks the minion in a given position.
-## Takes [Vector2] [param new_position] as the position the minion will be locked in.
-func lock_in_position(delta: float, new_position: Vector2) -> void:
-	_direction = minion.global_position.direction_to(new_position)
-	
-	minion.global_position = minion.global_position.lerp(new_position, delta * lock_in_acceleration_speed)
-	
-	minion.move_and_slide()
+#func set_in_position(new_position: Vector2) -> void:
+	#_direction = minion.global_position.direction_to(new_position)
+	#
+	#minion.global_position = new_position
+	#
+	#minion.move_and_slide()
+	#
+### Locks the minion in a given position.
+### Takes [Vector2] [param new_position] as the position the minion will be locked in.
+#func lock_in_position(delta: float, new_position: Vector2) -> void:
+	#_direction = minion.global_position.direction_to(new_position)
+	#
+	#minion.global_position = minion.global_position.lerp(new_position, delta * lock_in_acceleration_speed)
+	#
+	#minion.move_and_slide()
 	

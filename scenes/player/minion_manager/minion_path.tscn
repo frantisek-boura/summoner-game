@@ -10,4 +10,4 @@ metadata/_custom_type_script = "uid://b43ekgaafb0iu"
 
 [node name="timer" type="Timer" parent="." unique_id=1718975064]
 process_callback = 0
-wait_time = 0.2
+wait_time = 0.1

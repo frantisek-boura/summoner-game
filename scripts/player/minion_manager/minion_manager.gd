@@ -5,7 +5,7 @@ extends Node2D
 ##
 ## This node utilizes nodes like [RadialMinionMenu], [SelectedMinionIndicator], [MinionHandler] and [MinionPath] to control minions.
 
-const MAX_MINIONS_COUNT: int = 12
+const MAX_MINIONS_COUNT: int = 8
 const IDLE_RADIUS: float = 300.0
 const IDLE_RADIUS_Y_MULTIPLIER: float = 0.5
 
@@ -44,6 +44,9 @@ func _ready() -> void:
 func inc_angle(delta: float) -> void:
 	angle -= delta * idle_rotation_speed
 	
+func is_selecting() -> bool:
+	return state_machine.get_current_state().name == "minion_manager_select_state"
+	
 func add_default_minion() -> void:
 	if len(minion_handler.minions) >= MinionManager.MAX_MINIONS_COUNT:
 		return
@@ -65,13 +68,29 @@ func change_to_follow_state() -> void:
 func update_minion_select_positions() -> void:
 	for minion: Minion in minion_handler.forcible_minions.keys():
 		var forcible_minions_index: int = minion_handler.forcible_minions[minion]
-		minion.set_select_position(angle, entity.global_position, len(minion_handler.forcible_minions), forcible_minions_index) 
+		minion.movement.set_select_position(angle, entity.global_position, len(minion_handler.forcible_minions), forcible_minions_index) 
+
+func force_minions_select() -> void:
+	for minion: Minion in minion_handler.forcible_minions.keys():
+		minion.state_machine.change_to_select_state()
+		
+func force_minions_follow() -> void:
+	for minion: Minion in minion_handler.forcible_minions.keys():
+		minion.state_machine.change_to_follow_state()
+		
+func open_selection_menu() -> void:
+	radial_minion_menu.show()
+	
+func close_selection_menu(make_selection: bool) -> void:
+	radial_minion_menu.hide()
+	if make_selection:
+		radial_minion_menu.make_selection()
 
 func _update_minion_follow_points() -> void:
 	for minion: Minion in minion_handler.forcible_minions.keys():
 		var path_index: int = minion_handler.forcible_minions[minion]
 		var follow_position: Vector2 = minion_path.points[path_index].global_position
-		minion.set_follow_path(follow_position)
+		minion.movement.set_follow_position(follow_position)
 
 func _on_minion_selected(minion: Minion) -> void:
 	selected_minion = minion
@@ -84,81 +103,18 @@ func _change_new_minion_state(new_minion: Minion) -> void:
 	elif current_state == "minion_manager_select_state":
 		new_minion.force_to_select_state()
 
-func _on_minion_tree_changed(new_minion: Minion = null) -> void:
+func _on_minion_tree_changed(minion: Minion = null) -> void:
 	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
 	_update_minion_follow_points()
-	call_deferred("_change_new_minion_state", new_minion)
+	if is_instance_valid(minion) and minion.state_machine.is_forcible:
+		call_deferred("_change_new_minion_state", minion)
 	
-func _on_forcible_minions_changed(is_enabled: bool, new_minion: Minion) -> void:
+func _on_forcible_minions_changed(is_enabled: bool, minion: Minion) -> void:
 	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
 	_update_minion_follow_points()
-	if is_enabled:
-		call_deferred("_change_new_minion_state", new_minion)
+	if is_instance_valid(minion) and is_enabled:
+		call_deferred("_change_new_minion_state", minion)
 	
 func _on_path_updated() -> void:
 	minion_path.update_point(entity.global_position)
 	_update_minion_follow_points()
-
-func force_minions_select() -> void:
-	for minion: Minion in minion_handler.forcible_minions.keys():
-		minion.state_machine.change_state_safe("minion_select_state")
-		
-func force_minions_follow() -> void:
-	for minion: Minion in minion_handler.forcible_minions.keys():
-		minion.state_machine.change_state_safe("minion_follow_state")
-		
-func open_selection_menu() -> void:
-	radial_minion_menu.show()
-	
-func close_selection_menu(make_selection: bool) -> void:
-	radial_minion_menu.hide()
-	radial_minion_menu.make_selection()
-
-### Invoked when the state of a minion's [signal MinionStateMachine.forcible_changed] is emitted.
-### Handles 
-#func _on_forcible_changed(is_enabled: bool, minion: Minion) -> void:
-	#if is_enabled:
-		#_forcible_minions.append(minion)
-		#_forcible_minions.sort_custom(_by_index)
-		#if is_idling:
-			#minion.minion_state_machine.change_state_safe("minion_idle_state")
-		#else:
-			#minion.minion_state_machine.change_state_safe("minion_move_to_entity_state")
-	#else:
-		#_forcible_minions.erase(minion)
-	#forcible_minions_changed.emit(_forcible_minions)
-	#
-### Returns the position of the entity this minion belongs to.
-#func get_entity_position() -> Vector2:
-	#return entity.global_position
-	#
-#func get_forcible_minion_index(minion_index: int) -> int:
-	#var forcible_indices: Array = _forcible_minions.map(func(m: Minion): return m.index)
-	#assert(forcible_indices.has(minion_index), "MINION MANAGER: Index of forcible minion not found.")
-	#
-	#return forcible_indices.find(minion_index)
-	#
-#func set_minion_independent(state_name: String) -> void:
-	#if selected_minion == null: return
-	#
-	#var minion: Minion = selected_minion
-	#
-	#minion.minion_state_machine.set_forcible(false)
-	#minion.minion_state_machine.change_state(state_name)
-	#
-#func set_minion_forcible() -> void:
-	#if selected_minion == null: return
-	#
-	#var minion: Minion = selected_minion
-	#minion.minion_state_machine.set_forcible(true)
-	#
-### Returns the radial offset by minion index in rads.
-### Expects the result of [method MinionManager.get_forcible_minion_index] as [param forcible_position_index].
-#func minion_offset(forcible_minion_index: int) -> float:
-	#return (TAU / len(_forcible_minions)) * forcible_minion_index
-	#
-### Forces state-forcible minions in [member MinionManager._minions] to change state.
-### Takes [String] [param state_name] as the name of the new state.
-#func group_change_state(state_name: String) -> void:
-	#for minion in _forcible_minions:
-		#minion.minion_state_machine.change_state_safe(state_name)

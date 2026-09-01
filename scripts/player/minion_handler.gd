@@ -66,7 +66,7 @@ func _reorganize_minions(target_node: Node = null, is_deleting: bool = false) ->
 		new_minions.set(minion, new_minion_count)
 		new_minion_count += 1
 		
-		if minion.state_machine.is_forcible():
+		if minion.state_machine.is_forcible:
 			new_forcible_minions.set(minion, new_forcible_minion_count)
 			new_forcible_minion_count += 1
 			
