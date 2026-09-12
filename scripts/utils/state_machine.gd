@@ -5,10 +5,11 @@ extends Node
 @export var beginning_state: State
 @export var default_state: State
 
+var can_change: bool = true
+
 var _states: Array[State] = []
 var _current_state: State = null
 var _changing_state: bool = false
-var _can_change_state: bool = true
 
 signal state_changed(old_state_name: String, new_state_name: String)
 
@@ -19,21 +20,25 @@ func _ready() -> void:
 	_change_state(beginning_state.name)
 	
 func _input(event: InputEvent) -> void:
-	if _changing_state: return
+	var next_state: State = _current_state.input_event(event)
 	
-	_current_state.input_event(event)
+	if is_instance_valid(next_state):
+		change_state(next_state.name)
 	
 func _process(delta: float) -> void:
-	_current_state.frames(delta)
+	var next_state_frames: State = _current_state.frames(delta)
+	var next_state_input: State = _current_state.input_process(delta)
 	
-	if _changing_state: return
-	
-	_current_state.input_process(delta)
+	if is_instance_valid(next_state_input):
+		change_state(next_state_input.name)
+	elif is_instance_valid(next_state_frames):
+		change_state(next_state_frames.name)
 	
 func _physics_process(delta: float) -> void:
-	if _changing_state: return
+	var next_state: State = _current_state.physics(delta)
 	
-	_current_state.physics(delta)
+	if is_instance_valid(next_state):
+		change_state(next_state.name)
 	
 ## Filters this node's children for [State] nodes and saves them to [member StateMachine.states].
 func _scan_states() -> void:
@@ -75,12 +80,6 @@ func _change_state(new_state_name: String) -> void:
 ## Changes this entity's state using its state machine
 ## Takes [String] [param new_state_name] for the name of the new state's node.
 func change_state(new_state_name: String) -> void:
-	if not _can_change_state or _changing_state: return
+	if not can_change or _changing_state: return
 	
 	_change_state(new_state_name)
-
-func set_can_change_state(is_enabled: bool) -> void:
-	_can_change_state = is_enabled
-	
-func can_change_state() -> bool:
-	return _can_change_state

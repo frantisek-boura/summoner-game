@@ -96,10 +96,12 @@ stop_acceleration_speed = 80.0
 [node name="player_state_machine" parent="." unique_id=523324477 node_paths=PackedStringArray("beginning_state") instance=ExtResource("17_uf5tr")]
 beginning_state = NodePath("player_idle_state")
 
-[node name="player_idle_state" parent="player_state_machine" unique_id=1913843669 node_paths=PackedStringArray("player") instance=ExtResource("5_75vfm")]
+[node name="player_idle_state" parent="player_state_machine" unique_id=1913843669 node_paths=PackedStringArray("move_state", "player") instance=ExtResource("5_75vfm")]
+move_state = NodePath("../player_move_state")
 player = NodePath("../..")
 
-[node name="player_move_state" parent="player_state_machine" unique_id=1167808381 node_paths=PackedStringArray("player") instance=ExtResource("6_0owmy")]
+[node name="player_move_state" parent="player_state_machine" unique_id=1167808381 node_paths=PackedStringArray("idle_state", "player") instance=ExtResource("6_0owmy")]
+idle_state = NodePath("../player_idle_state")
 player = NodePath("../..")
 
 [node name="collider" type="CollisionShape2D" parent="." unique_id=717725179]

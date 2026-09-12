@@ -12,15 +12,17 @@ func enter() -> void:
 func exit() -> void:
 	pass
 
-func frames(_delta: float) -> void:
-	pass
+func frames(_delta: float) -> State:
+	return null
 
-func physics(delta: float) -> void:
+func physics(delta: float) -> State:
 	minion_manager.inc_angle(delta)
 	minion_manager.update_minion_select_positions()
+	
+	return null
 
-func input_process(_delta: float) -> void:
-	pass
+func input_process(_delta: float) -> State:
+	return null
 
-func input_event(_event: InputEvent) -> void:
-	pass
+func input_event(_event: InputEvent) -> State:
+	return null

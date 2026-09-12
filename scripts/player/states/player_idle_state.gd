@@ -1,10 +1,13 @@
 class_name PlayerIdleState
 extends State
 
+@export var move_state: PlayerMoveState
+
 @export var player: Player
 
 func _ready() -> void:
 	assert(player != null, "PLAYER IDLE STATE: Stateful node not set")
+	assert(move_state != null, "PLAYER IDLE STATE: PlayerMoveState node not set")
 
 func enter() -> void:
 	player.minion_manager.change_to_follow_state()
@@ -14,21 +17,23 @@ func exit() -> void:
 		player.minion_manager.close_selection_menu(false)
 		player.minion_manager.change_to_follow_state()
 
-func frames(_delta: float) -> void:
-	pass
+func frames(_delta: float) -> State:
+	return null
 
-func physics(_delta: float) -> void:
+func physics(_delta: float) -> State:
 	player.movement.stop()
+	
+	return null
 
-func input_process(_delta: float) -> void:
+func input_process(_delta: float) -> State:
 	player.movement.handle_movement_input()
 	
 	if player.movement.check_movement():
-		player.state_machine.change_state("player_move_state")
+		return move_state
 		
+	return null
 
-func input_event(event: InputEvent) -> void:
-	pass
+func input_event(event: InputEvent) -> State:
 	if event.is_action_pressed("minion_selector") and not player.minion_manager.is_selecting():
 		player.minion_manager.open_selection_menu()
 		player.minion_manager.change_to_select_state()
@@ -37,3 +42,5 @@ func input_event(event: InputEvent) -> void:
 		player.minion_manager.change_to_follow_state()
 	if event.is_action_pressed("escape"):
 		player.minion_manager.add_default_minion()
+	
+	return null
