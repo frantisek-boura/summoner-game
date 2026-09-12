@@ -101,7 +101,7 @@ func _change_new_minion_state(new_minion: Minion) -> void:
 	if current_state == "minion_manager_follow_state":
 		new_minion.state_machine.change_to_follow_state()
 	elif current_state == "minion_manager_select_state":
-		new_minion.state_machine.force_to_select_state()
+		new_minion.state_machine.change_to_select_state()
 
 func _on_minion_tree_changed(minion: Minion = null) -> void:
 	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())

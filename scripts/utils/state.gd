@@ -2,9 +2,12 @@
 @abstract class_name State 
 extends Node
 
+@export var next_state: State = null
 @export var timer: Timer = null
 
 @onready var state_machine: StateMachine = get_parent() as StateMachine
+
+signal change_condition_reached
 
 ## Called on the new state when [StateMachine] changes states.
 @abstract func enter() -> void

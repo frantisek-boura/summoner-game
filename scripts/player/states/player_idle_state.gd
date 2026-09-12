@@ -11,7 +11,6 @@ func enter() -> void:
 
 func exit() -> void:
 	if player.minion_manager.is_selecting():
-		player.camera.zoom_to_default()
 		player.minion_manager.close_selection_menu(false)
 		player.minion_manager.change_to_follow_state()
 
@@ -31,11 +30,9 @@ func input_process(_delta: float) -> void:
 func input_event(event: InputEvent) -> void:
 	pass
 	if event.is_action_pressed("minion_selector") and not player.minion_manager.is_selecting():
-		player.camera.zoom_to_select()
 		player.minion_manager.open_selection_menu()
 		player.minion_manager.change_to_select_state()
 	if event.is_action_released("minion_selector") and player.minion_manager.is_selecting():
-		player.camera.zoom_to_default()
 		player.minion_manager.close_selection_menu(true)
 		player.minion_manager.change_to_follow_state()
 	if event.is_action_pressed("escape"):

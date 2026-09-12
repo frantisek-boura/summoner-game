@@ -3,6 +3,7 @@ class_name StateMachine
 extends Node
 
 @export var beginning_state: State
+@export var default_state: State
 
 var _states: Array[State] = []
 var _current_state: State = null
@@ -46,7 +47,7 @@ func _scan_states() -> void:
 ## [br][br]
 ## Takes [String] [param state_name] for the name of the new state's node.
 func _find_state_by_name(state_name: String) -> State:
-	var filtered_states: Array[State] = _states.filter(func(s): return s.name == state_name)
+	var filtered_states: Array[State] = _states.filter(func(s): return s.name == state_name.strip_edges())
 	assert(len(filtered_states) == 1, "STATE MACHINE: Could not pinpoint state with name '%s'. Found %d states." % [state_name, len(filtered_states)])
 	
 	return filtered_states.front() as State

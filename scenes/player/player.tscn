@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cnjw2watliysa"]
 
 [ext_resource type="Script" uid="uid://ecoengxt0qpr" path="res://scripts/player/player.gd" id="1_dovo2"]
-[ext_resource type="Script" uid="uid://b3m3ip8weoxd2" path="res://scenes/player/camera.gd" id="2_gx1jg"]
 [ext_resource type="Texture2D" uid="uid://ivhipj63degi" path="res://icon.svg" id="2_lvxji"]
 [ext_resource type="PackedScene" uid="uid://dih8sd3f77efp" path="res://scenes/entity/entity_health.tscn" id="3_0owmy"]
 [ext_resource type="PackedScene" uid="uid://c05qlldfo5akd" path="res://scenes/utils/depth_detector.tscn" id="3_gx1jg"]
@@ -25,10 +24,9 @@ radius = 68.007355
 [sub_resource type="CircleShape2D" id="CircleShape2D_cslih"]
 radius = 61.008198
 
-[node name="player" type="CharacterBody2D" unique_id=1895177123 node_paths=PackedStringArray("camera", "minion_manager", "entity_state_machine", "entity_movement", "entity_health")]
+[node name="player" type="CharacterBody2D" unique_id=1895177123 node_paths=PackedStringArray("minion_manager", "entity_state_machine", "entity_movement", "entity_health")]
 collision_layer = 4
 script = ExtResource("1_dovo2")
-camera = NodePath("camera")
 minion_manager = NodePath("minion_manager")
 entity_state_machine = NodePath("player_state_machine")
 entity_movement = NodePath("player_movement")
@@ -104,14 +102,19 @@ player = NodePath("../..")
 [node name="player_move_state" parent="player_state_machine" unique_id=1167808381 node_paths=PackedStringArray("player") instance=ExtResource("6_0owmy")]
 player = NodePath("../..")
 
-[node name="camera" type="Camera2D" parent="." unique_id=380490572]
-scale = Vector2(0.5, 0.5)
-process_callback = 0
-position_smoothing_enabled = true
-script = ExtResource("2_gx1jg")
-zoom_speed = 30.0
-zoom_time = 0.3
-
 [node name="collider" type="CollisionShape2D" parent="." unique_id=717725179]
 position = Vector2(0, -64)
 shape = SubResource("CircleShape2D_cslih")
+
+[node name="camera" type="Camera2D" parent="." unique_id=407114653]
+zoom = Vector2(0.65, 0.65)
+process_callback = 0
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_horizontal_offset = 0.4
+drag_vertical_offset = 0.4
+drag_left_margin = 0.05
+drag_top_margin = 0.05
+drag_right_margin = 0.05
+drag_bottom_margin = 0.05
