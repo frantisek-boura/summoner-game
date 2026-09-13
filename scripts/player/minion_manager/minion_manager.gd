@@ -4,17 +4,18 @@ extends Node2D
 ## MinionManager controls the entire minion system.
 ##
 ## This node utilizes nodes like [RadialMinionMenu], [SelectedMinionIndicator], [MinionHandler] and [MinionPath] to control minions.
+## Handles minion instantiation/erasure, keeps track of minions, changes minion states, assigns minion tasks, selects/deselects minions.
 
 const MAX_MINIONS_COUNT: int = 8
 const IDLE_RADIUS: float = 300.0
 const IDLE_RADIUS_Y_MULTIPLIER: float = 0.5
 
+@export_range(0, 1, 0.001) var idle_rotation_speed: float = 0.3
 @export var radial_minion_menu: RadialMinionMenu
 @export var selected_minion_indicator: SelectedMinionIndicator
 @export var minion_path: MinionPath
 @export var minion_handler: MinionHandler
 @export var state_machine: MinionManagerStateMachine
-@export_range(0, 1, 0.001) var idle_rotation_speed: float = 0.3
 @export var minion_types: Array[PackedScene] = []
 
 @onready var entity: Entity = get_parent() as Entity
@@ -34,10 +35,12 @@ func _ready() -> void:
 	minion_handler.minion_tree_changed.connect(_on_minion_tree_changed)
 	minion_handler.forcible_minions_changed.connect(_on_forcible_minions_changed)
 	minion_path.update_timer.timeout.connect(_on_path_updated)
+	minion_handler.all_minions_ready.connect(_on_all_minions_ready)
 	
 	minion_handler.reorganize_minions()
 	minion_path.init_points(entity.global_position)
 	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
+	_hook_minion_signals()
 
 ## Increases internal [member MinionManager.angle] value used for determining current idle position of each minion.
 ## Takes [float] [param delta] as increment.
@@ -96,6 +99,10 @@ func _on_minion_selected(minion: Minion) -> void:
 	selected_minion = minion
 	selected_minion_indicator.enable(minion)
 
+func _on_all_minions_ready(new_state: State) -> void:
+	for minion: Minion in minion_handler.forcible_minions.keys():
+		minion.state_machine.change_state_safe(new_state.name)
+
 func _change_new_minion_state(new_minion: Minion) -> void:
 	var current_state: String = state_machine.get_current_state().name
 	if current_state == "minion_manager_follow_state":
@@ -103,17 +110,27 @@ func _change_new_minion_state(new_minion: Minion) -> void:
 	elif current_state == "minion_manager_select_state":
 		new_minion.state_machine.change_to_select_state()
 
+func _hook_minion_signals() -> void:
+	for minion: Minion in minion_handler.minions.keys():
+		if minion.state_machine.ready_up.is_connected(minion_handler.ready_up.bind(minion)):
+			minion.state_machine.ready_up.disconnect(minion_handler.ready_up.bind(minion))
+		
+		if minion_handler.forcible_minions.keys().has(minion):
+			minion.state_machine.ready_up.connect(minion_handler.ready_up.bind(minion))
+
 func _on_minion_tree_changed(minion: Minion = null) -> void:
 	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
 	_update_minion_follow_points()
 	if is_instance_valid(minion) and minion.state_machine.is_forcible:
 		call_deferred("_change_new_minion_state", minion)
+	_hook_minion_signals()
 	
 func _on_forcible_minions_changed(is_enabled: bool, minion: Minion) -> void:
 	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
 	_update_minion_follow_points()
 	if is_instance_valid(minion) and is_enabled:
 		call_deferred("_change_new_minion_state", minion)
+	_hook_minion_signals()
 	
 func _on_path_updated() -> void:
 	minion_path.update_point(entity.global_position)

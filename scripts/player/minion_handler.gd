@@ -14,10 +14,19 @@ var minions: Dictionary[Minion, int] = {}
 ## Collection of minions that can be forced to change state.
 var forcible_minions: Dictionary[Minion, int] = {}
 
+## Keeps track of minions that have been marked as ready to change state.
+## Used for situations where minions have to change state simultaneously
+var _ready_minions: Array[Minion] = []
+## Flag that controls whether minions can or cannot be initialized and added or removed to/from scene tree
+## or whether minions can change their forcible status
+var can_change_tree: bool = true
+
 ## Emitted when [MinionHandler]'s tree of child nodes changes.
 signal minion_tree_changed(new_minion: Minion)
 ## Emitted when a minion changes their [member MinionStateMachine.is_forcible] value.
 signal forcible_minions_changed(is_enabled: bool, new_minion: Minion)
+## Emitted when all forcible minions are marked as ready using [signal MinionStateMachine.ready_up]
+signal all_minions_ready(new_state: State)
 
 func _ready() -> void:
 	child_entered_tree.connect(_on_minion_tree_changed.bind(false))
@@ -26,8 +35,9 @@ func _ready() -> void:
 ## Instantiates a new minion scene based on the [param minion_scene] provided at [param new_position] position.
 ## Does nothing if [member MinionHandler.minions] contains [const MinionManager.MAX_MINIONS_COUNT] or more instances.
 func add_minion(minion_scene: PackedScene, new_position: Vector2) -> void:
-	if len(minions) >= MinionManager.MAX_MINIONS_COUNT:
+	if len(minions) >= MinionManager.MAX_MINIONS_COUNT or not can_change_tree:
 		return
+	
 	var minion: Minion = minion_scene.instantiate()
 	minion.global_position = new_position
 	add_child(minion)
@@ -35,9 +45,26 @@ func add_minion(minion_scene: PackedScene, new_position: Vector2) -> void:
 ## Removes the provided [param minion] instance.
 ## Does nothing if [member MinionHandler.minions] has 0 instances.
 func remove_minion(minion: Minion) -> void:
-	if len(minions) == 0 or not is_instance_valid(minion):
+	if len(minions) == 0 or not is_instance_valid(minion) or not can_change_tree:
 		return
+	
 	minion.queue_free()
+
+## Evaulates whether provided [Minion] instance is or isn't marked as ready, if it's not,
+## then it's marked as ready and the number of ready minions is checked against the number of
+## all forcible minions. Returns true only when all forcible minions are ready.
+func ready_up(state: State, minion: Minion) -> void:
+	if not is_instance_valid(minion): 
+		return
+	
+	if not _ready_minions.has(minion):
+		can_change_tree = false
+		_ready_minions.append(minion)
+		
+		if len(_ready_minions) == len(forcible_minions):
+			_ready_minions = []
+			can_change_tree = true
+			all_minions_ready.emit(state)
 
 ## Serves as a handler to call [method _reorganize_minions] from the outside for initialization purposes.
 ## Used by [MinionManager] at the end of its own initialization.
@@ -77,6 +104,8 @@ func _reorganize_minions(target_node: Node = null, is_deleting: bool = false) ->
 ## Checks for count of minions in child tree and removes extra minions, reorganizes minions,
 ## and emits [signal MinionHandler.minion_tree_changed] to signal that minions have been reorganized.
 func _on_minion_tree_changed(target_node: Node = null, is_deleting: bool = false) -> void:
+	## keeps minion count in checks in case a minion was created using a different function
+	## than add_minion
 	if len(get_children()) > MinionManager.MAX_MINIONS_COUNT and not is_deleting:
 		target_node.queue_free()
 		return
