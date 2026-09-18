@@ -49,9 +49,8 @@ shape = SubResource("CircleShape2D_fqypg")
 debug_color = Color(0.39926603, 0, 0.022066697, 0.41960785)
 
 [node name="minion_movement" parent="." unique_id=248751734 instance=ExtResource("4_fqypg")]
-select_lerp_weight = 0.15000000000000002
-follow_lerp_weight = 0.15000000000000002
-owner_lerp_weight = 0.15000000000000002
+select_lerp_weight = 0.1
+follow_lerp_weight = 0.1
 select_movement_speed = 500.0
 select_acceleration_speed = 1000.0
 movement_speed = 400.0

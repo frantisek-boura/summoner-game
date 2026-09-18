@@ -16,8 +16,6 @@ func enter() -> void:
 	
 	minion.movement.request_select_position.emit(minion)
 	await minion.movement.target_position_received
-	
-	minion.movement.in_owner_position.emit()
 
 func exit() -> void:
 	pass

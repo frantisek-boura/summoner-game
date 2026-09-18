@@ -24,7 +24,6 @@ var selected_minion: Minion = null
 var angle: float = 0
 
 signal selection_ready
-signal request_open_menu
 
 func _ready() -> void:
 	assert(radial_minion_menu != null, "MINION MANAGER: Radial Minion Menu not set.")
@@ -86,6 +85,7 @@ func close_selection_menu(make_selection: bool) -> void:
 	radial_minion_menu.hide()
 	if make_selection:
 		radial_minion_menu.make_selection()
+	angle = 0
 
 func update_minion_owner_position() -> void:
 	for minion: Minion in minion_handler.forcible_minions.keys():
@@ -107,7 +107,6 @@ func _on_minion_selected(minion: Minion) -> void:
 	selected_minion_indicator.enable(minion)
 
 func _on_all_minions_ready(new_state: State) -> void:
-	print("ready")
 	for minion: Minion in minion_handler.forcible_minions.keys():
 		minion.state_machine.change_state_safe(new_state.name)
 
@@ -162,7 +161,7 @@ func _on_in_select_position() -> void:
 	selection_ready.emit()
 	
 func _on_in_owner_position() -> void:
-	request_open_menu.emit()
+	open_selection_menu()
 
 func _on_minion_tree_changed(minion: Minion = null) -> void:
 	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())

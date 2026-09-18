@@ -18,7 +18,7 @@ func enter() -> void:
 	await minion.movement.target_position_received
 
 func exit() -> void:
-	pass
+	minion.movement.in_owner_position.emit()
 
 func frames(_delta: float) -> State:
 	return null

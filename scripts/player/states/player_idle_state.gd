@@ -35,7 +35,6 @@ func input_process(_delta: float) -> State:
 
 func input_event(event: InputEvent) -> State:
 	if event.is_action_pressed("minion_selector") and not player.minion_manager.is_selecting():
-		player.minion_manager.open_selection_menu()
 		player.minion_manager.change_to_select_state()
 	if event.is_action_released("minion_selector") and player.minion_manager.is_selecting():
 		player.minion_manager.close_selection_menu(true)
