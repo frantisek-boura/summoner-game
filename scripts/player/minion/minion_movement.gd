@@ -1,21 +1,27 @@
 class_name MinionMovement
 extends EntityMovement
 
-@export_range(1, 20, 1) var select_acceleration_speed: float = 10
-@export_range(1, 20, 1) var lock_in_acceleration_speed: float = 10
-@export_range(10, 1000, 1) var follow_movement_speed: float = 10
-@export_range(10, 1000, 1) var follow_acceleration_speed: float = 10
+@export_range(0.1, 1.0, 0.01) var select_lerp_weight: float = 0.5
+@export_range(0.1, 1.0, 0.01) var follow_lerp_weight: float = 0.5
+@export_range(0.1, 1.0, 0.01) var owner_lerp_weight: float = 0.5
+@export_range(10, 1000, 1) var select_movement_speed: float = 100
+@export_range(10, 1000, 1) var select_acceleration_speed: float = 100
 
 var minion: Minion:
 	get: 
 		return _entity as Minion
-var _follow_position: Vector2
-var _select_position: Vector2
+
+signal request_follow_position(requesting_minion: Minion)
+signal request_owner_position(requesting_minion: Minion)
+signal request_select_position(requesting_minion: Minion)
+signal in_owner_position
+signal in_select_position
 
 ## Used to define this minion's [member MinionMovement._follow_position]. 
 ## Should be used by [MinionManager].
 func set_follow_position(follow_position: Vector2) -> void:
-	_follow_position = follow_position
+	super.change_target_position(follow_position)
+	target_position_received.emit()
 
 ## Calculates the idle position based on [member MinionManager.angle], [member MinionManager.entity]'s global_position, the amount of
 ## forcible minions defined by the length of [member MinionHandler.forcible_minions], and this minion's forcible index defined by key-value pairs in [member MinionHandler.forcible_minions],
@@ -27,47 +33,27 @@ func set_select_position(angle: float, entity_position: Vector2, forcible_minion
 			sin(angle + offset), 
 			cos(angle + offset) * MinionManager.IDLE_RADIUS_Y_MULTIPLIER
 		) * MinionManager.IDLE_RADIUS
-	_select_position = select_position
-
-## Moves this minion towards the idling position.
-## Takes [Vector2] [param new_position] as the position the minion will be locked in.
-func move_select(delta: float) -> void:
-	_direction = minion.global_position.direction_to(_select_position)
+	super.change_target_position(select_position) 
+	target_position_received.emit()
 	
-	minion.global_position = minion.global_position.lerp(_select_position, delta * select_acceleration_speed)
-	
-	minion.move_and_slide()
-
-## Checks if this minion has arrived to [member MinionMovement._select_position]
-func has_arrived_select() -> bool:
-	return has_arrived(_select_position)
+## Used to define the minion's owner's position. Is used by function [method MinionMovement.move_owner]
+## to move the minion towards [param owner_position].
+func set_owner_position(owner_position: Vector2) -> void:
+	super.change_target_position(owner_position)
+	target_position_received.emit()
 
 ## Moves this minion towards the owner entity's position.
-func move_follow() -> void:
-	_direction = minion.global_position.direction_to(_follow_position)
+func lerp_follow() -> void:
+	super.lerp_toward(follow_lerp_weight)
+
+## Slides this minion in its direction defined by [method EntityMovement.change_direction]
+func slide_select() -> void:
+	super.slide_toward(select_movement_speed, select_acceleration_speed)
 	
-	minion.velocity.x = move_toward(minion.velocity.x, _direction.x * follow_movement_speed, follow_acceleration_speed)
-	minion.velocity.y = move_toward(minion.velocity.y, _direction.y * follow_movement_speed, follow_acceleration_speed)
-	
-	minion.move_and_slide()
-	
-## Checks if this minion has arrived to [member MinionMovement._follow_position]
-func has_arrived_follow() -> bool:
-	return has_arrived(_follow_position)
-	
-#func set_in_position(new_position: Vector2) -> void:
-	#_direction = minion.global_position.direction_to(new_position)
-	#
-	#minion.global_position = new_position
-	#
-	#minion.move_and_slide()
-	#
-### Locks the minion in a given position.
-### Takes [Vector2] [param new_position] as the position the minion will be locked in.
-#func lock_in_position(delta: float, new_position: Vector2) -> void:
-	#_direction = minion.global_position.direction_to(new_position)
-	#
-	#minion.global_position = minion.global_position.lerp(new_position, delta * lock_in_acceleration_speed)
-	#
-	#minion.move_and_slide()
-	
+## Moves this minion towards the selecting position. Uses position lerp.
+func lerp_select() -> void:
+	super.lerp_toward(select_lerp_weight)
+
+## Moves this minion towards the [Vector2] [param target_position].
+func lerp_owner() -> void:
+	super.lerp_toward(owner_lerp_weight)

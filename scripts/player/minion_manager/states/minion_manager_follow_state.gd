@@ -7,6 +7,7 @@ func _ready() -> void:
 	assert(minion_manager != null, "MINION MANAGER FOLLOW STATE: Stateful node not set")
 
 func enter() -> void:
+	minion_manager.update_minion_follow_points()
 	minion_manager.force_minions_follow()
 
 func exit() -> void:

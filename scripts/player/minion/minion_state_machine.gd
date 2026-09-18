@@ -19,11 +19,11 @@ signal forcible_changed(is_enabled: bool)
 
 ## Changes the player's state to idle.
 func change_to_follow_state() -> void:
-	change_state_safe("minion_follow_state")
+	change_state_safe("minion_follow_state_3") ## TODO: smazat 3
 	
 ## Changes the player's state to idle.
 func change_to_select_state() -> void:
-	change_state_safe("minion_select_state")
+	change_state_safe("minion_select_state") ## TODO: smazat 3
 
 ## This method is an extension of [method StateMachine.change_state] that takes into account [member MinionStateMachine._is_forcible] value.
 ## This method is meant to be used on multiple stateful objects at once to filter out those that aren't supposed to change state. [br][br]

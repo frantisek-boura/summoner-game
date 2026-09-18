@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bwsnqroe766j7"]
+
+[ext_resource type="Script" uid="uid://5p61pbs80kpa" path="res://scripts/player/minion/states/minion_select_state_3.gd" id="1_qhrco"]
+
+[node name="minion_select_state_3" type="Node" unique_id=1223317756]
+script = ExtResource("1_qhrco")

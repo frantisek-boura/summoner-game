@@ -16,10 +16,10 @@ func frames(_delta: float) -> State:
 	return null
 
 func physics(_delta: float) -> State:
-	if minion.movement.has_arrived_follow():
+	if minion.movement.has_arrived():
 		minion.movement.stop()
 	else:
-		minion.movement.move_follow()
+		minion.movement.lerp_follow()
 		
 	return null
 

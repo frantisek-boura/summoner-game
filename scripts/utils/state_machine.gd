@@ -20,12 +20,16 @@ func _ready() -> void:
 	_change_state(beginning_state.name)
 	
 func _input(event: InputEvent) -> void:
+	if _current_state == null: return
+	
 	var next_state: State = _current_state.input_event(event)
 	
 	if is_instance_valid(next_state):
 		change_state(next_state.name)
 	
 func _process(delta: float) -> void:
+	if _current_state == null: return
+	
 	var next_state_frames: State = _current_state.frames(delta)
 	var next_state_input: State = _current_state.input_process(delta)
 	
@@ -35,7 +39,9 @@ func _process(delta: float) -> void:
 		change_state(next_state_frames.name)
 	
 func _physics_process(delta: float) -> void:
-	var next_state: State = _current_state.physics(delta)
+	if _current_state == null: return
+	
+	var next_state: State = await _current_state.physics(delta)
 	
 	if is_instance_valid(next_state):
 		change_state(next_state.name)
@@ -69,11 +75,13 @@ func _change_state(new_state_name: String) -> void:
 	
 	if _current_state:
 		_current_state.exit()
-	_current_state = new_state
+	_current_state = null
 	
+	new_state.enter()
+	
+	_current_state = new_state
 	if old_state_name != new_state_name:
 		state_changed.emit(old_state_name, new_state_name)
-	_current_state.enter()
 	
 	_changing_state = false
 	

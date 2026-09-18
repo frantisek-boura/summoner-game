@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://cnjw2watliysa"]
+
+[ext_resource type="Script" uid="uid://ecoengxt0qpr" path="res://scripts/player/player.gd" id="1_dovo2"]
+[ext_resource type="Texture2D" uid="uid://ivhipj63degi" path="res://icon.svg" id="2_lvxji"]
+[ext_resource type="PackedScene" uid="uid://dih8sd3f77efp" path="res://scenes/entity/entity_health.tscn" id="3_0owmy"]
+[ext_resource type="PackedScene" uid="uid://c05qlldfo5akd" path="res://scenes/utils/depth_detector.tscn" id="3_gx1jg"]
+[ext_resource type="PackedScene" uid="uid://dwriwxogxtviv" path="res://scenes/player/player_movement.tscn" id="4_0owmy"]
+[ext_resource type="PackedScene" uid="uid://c3tb4herdcfpk" path="res://scenes/player/states/player_idle_state.tscn" id="5_75vfm"]
+[ext_resource type="PackedScene" uid="uid://bbucv3apdj71y" path="res://scenes/player/minion_manager/minion_manager.tscn" id="5_gx1jg"]
+[ext_resource type="PackedScene" uid="uid://cjcv1c550dax3" path="res://scenes/player/states/player_move_state.tscn" id="6_0owmy"]
+[ext_resource type="PackedScene" uid="uid://c4jablrvqtyog" path="res://scenes/ui/radial_minion_menu/radial_minion_menu.tscn" id="6_ugbui"]
+[ext_resource type="PackedScene" uid="uid://dqh5ljvowxgjy" path="res://scenes/ui/radial_minion_menu/selected_minion_indicator.tscn" id="7_fcs02"]
+[ext_resource type="PackedScene" uid="uid://cwck7ywhm1pq5" path="res://scenes/player/minion_manager/minion_path.tscn" id="9_kvlxm"]
+[ext_resource type="PackedScene" uid="uid://tindbr5hba6a" path="res://scenes/player/minion_manager/minion_handler.tscn" id="9_uf5tr"]
+[ext_resource type="PackedScene" uid="uid://dnad2wc7xlfkc" path="res://scenes/player/minion_manager/minion_manager_state_machine.tscn" id="10_fcs02"]
+[ext_resource type="PackedScene" uid="uid://qkdgutf2mu13" path="res://scenes/player/minion/minion.tscn" id="10_uf5tr"]
+[ext_resource type="PackedScene" uid="uid://b6sh36d38er63" path="res://scenes/player/minion_manager/states/minion_manager_follow_state.tscn" id="11_kvlxm"]
+[ext_resource type="PackedScene" uid="uid://c5ef5moa8riob" path="res://scenes/player/minion_manager/states/minion_manager_select_state.tscn" id="12_uf5tr"]
+[ext_resource type="PackedScene" uid="uid://dlshkao07sx6i" path="res://scenes/player/player_state_machine.tscn" id="17_uf5tr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mx3rh"]
+radius = 68.007355
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cslih"]
+radius = 61.008198
+
+[node name="player" type="CharacterBody2D" unique_id=1895177123 node_paths=PackedStringArray("minion_manager", "entity_state_machine", "entity_movement", "entity_health")]
+collision_layer = 4
+script = ExtResource("1_dovo2")
+minion_manager = NodePath("minion_manager")
+entity_state_machine = NodePath("player_state_machine")
+entity_movement = NodePath("player_movement")
+entity_health = NodePath("health")
+
+[node name="sprite" type="Sprite2D" parent="." unique_id=58080695]
+position = Vector2(0, -64)
+texture = ExtResource("2_lvxji")
+
+[node name="depth_detector" parent="sprite" unique_id=412125122 node_paths=PackedStringArray("sprite_carrier") instance=ExtResource("3_gx1jg")]
+sprite_carrier = NodePath("../..")
+is_static = false
+
+[node name="health" parent="." unique_id=1562004050 instance=ExtResource("3_0owmy")]
+
+[node name="collider" type="CollisionShape2D" parent="health" unique_id=1700498109]
+position = Vector2(0, -64)
+shape = SubResource("CircleShape2D_mx3rh")
+debug_color = Color(0.4727996, 0, 0.05701869, 0.41960785)
+
+[node name="minion_manager" parent="." unique_id=1534479540 node_paths=PackedStringArray("radial_minion_menu", "selected_minion_indicator", "minion_path", "minion_handler", "state_machine") instance=ExtResource("5_gx1jg")]
+radial_minion_menu = NodePath("radial_minion_menu")
+selected_minion_indicator = NodePath("selected_minion_indicator")
+minion_path = NodePath("minion_path")
+minion_handler = NodePath("minion_handler")
+state_machine = NodePath("minion_manager_state_machine")
+minion_types = Array[PackedScene]([ExtResource("10_uf5tr")])
+
+[node name="radial_minion_menu" parent="minion_manager" unique_id=335324687 instance=ExtResource("6_ugb
