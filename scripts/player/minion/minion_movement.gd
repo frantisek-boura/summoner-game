@@ -1,9 +1,9 @@
 class_name MinionMovement
 extends EntityMovement
 
-@export_range(0.1, 1.0, 0.01) var select_lerp_weight: float = 0.5
-@export_range(0.1, 1.0, 0.01) var follow_lerp_weight: float = 0.5
-@export_range(0.1, 1.0, 0.01) var owner_lerp_weight: float = 0.5
+@export_range(0.01, 1.0, 0.01) var select_lerp_weight: float = 0.5
+@export_range(0.01, 1.0, 0.01) var follow_lerp_weight: float = 0.5
+@export_range(0.01, 1.0, 0.01) var owner_lerp_weight: float = 0.5
 @export_range(10, 1000, 1) var select_movement_speed: float = 100
 @export_range(10, 1000, 1) var select_acceleration_speed: float = 100
 

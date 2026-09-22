@@ -15,7 +15,7 @@ func enter() -> void:
 	minion_manager.force_minions_select()
 	
 func exit() -> void:
-	pass
+	minion_manager.close_selection_menu(true)
 
 func frames(_delta: float) -> State:
 	return null

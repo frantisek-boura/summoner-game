@@ -65,6 +65,11 @@ func ready_up(state: State, minion: Minion) -> void:
 			_ready_minions = []
 			can_change_tree = true
 			all_minions_ready.emit(state)
+			
+## Resets readied minions status. Useful for handling dynamic changes in minions.
+func reset_readied_minions() -> void:
+	_ready_minions = []
+	can_change_tree = true
 
 ## Serves as a handler to call [method _reorganize_minions] from the outside for initialization purposes.
 ## Used by [MinionManager] at the end of its own initialization.

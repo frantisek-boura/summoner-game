@@ -87,20 +87,32 @@ func close_selection_menu(make_selection: bool) -> void:
 		radial_minion_menu.make_selection()
 	angle = 0
 
-func update_minion_owner_position() -> void:
-	for minion: Minion in minion_handler.forcible_minions.keys():
-		minion.movement.set_owner_position(entity.global_position) 
+func update_minion_owner_position(target_minion: Minion = null) -> void:
+	if not is_instance_valid(target_minion):
+		for minion: Minion in minion_handler.forcible_minions.keys():
+			minion.movement.set_owner_position(entity.global_position) 
+	else:
+		target_minion.movement.set_owner_position(entity.global_position) 
 
-func update_minion_select_positions() -> void:
-	for minion: Minion in minion_handler.forcible_minions.keys():
-		var forcible_minions_index: int = minion_handler.forcible_minions[minion]
-		minion.movement.set_select_position(angle, entity.global_position, len(minion_handler.forcible_minions), forcible_minions_index)
+func update_minion_select_positions(target_minion: Minion = null) -> void:
+	if not is_instance_valid(target_minion):
+		for minion: Minion in minion_handler.forcible_minions.keys():
+			var forcible_minions_index: int = minion_handler.forcible_minions[minion]
+			minion.movement.set_select_position(angle, entity.global_position, len(minion_handler.forcible_minions), forcible_minions_index)
+	else:
+		var forcible_minions_index: int = minion_handler.forcible_minions[target_minion]
+		target_minion.movement.set_select_position(angle, entity.global_position, len(minion_handler.forcible_minions), forcible_minions_index)
 
-func update_minion_follow_points() -> void:
-	for minion: Minion in minion_handler.forcible_minions.keys():
-		var path_index: int = minion_handler.forcible_minions[minion]
+func update_minion_follow_points(target_minion: Minion = null) -> void:
+	if not is_instance_valid(target_minion):
+		for minion: Minion in minion_handler.forcible_minions.keys():
+			var path_index: int = minion_handler.forcible_minions[minion]
+			var follow_position: Vector2 = minion_path.points[path_index].global_position
+			minion.movement.set_follow_position(follow_position)
+	else:
+		var path_index: int = minion_handler.forcible_minions[target_minion]
 		var follow_position: Vector2 = minion_path.points[path_index].global_position
-		minion.movement.set_follow_position(follow_position)
+		target_minion.movement.set_follow_position(follow_position)
 
 func _on_minion_selected(minion: Minion) -> void:
 	selected_minion = minion
@@ -113,9 +125,11 @@ func _on_all_minions_ready(new_state: State) -> void:
 func _change_new_minion_state(new_minion: Minion) -> void:
 	var current_state: String = state_machine.get_current_state().name
 	if current_state == "minion_manager_follow_state":
-		new_minion.state_machine.change_to_follow_state()
+		new_minion.state_machine.change_state_safe("minion_follow_state_2")
+		update_minion_follow_points()
 	elif current_state == "minion_manager_select_state":
-		new_minion.state_machine.change_to_select_state()
+		new_minion.state_machine.change_state_safe("minion_select_state_3")
+		update_minion_select_positions()
 
 func _hook_minion_signals() -> void:
 	for minion: Minion in minion_handler.minions.keys():
@@ -164,19 +178,20 @@ func _on_in_owner_position() -> void:
 	open_selection_menu()
 
 func _on_minion_tree_changed(minion: Minion = null) -> void:
-	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
-	update_minion_follow_points()
-	if is_instance_valid(minion) and minion.state_machine.is_forcible:
-		call_deferred("_change_new_minion_state", minion)
-	_hook_minion_signals()
+	if not is_instance_valid(minion):
+		_minions_changed(false, null)
+	else:
+		minion.global_position = entity.global_position
+		_minions_changed(minion.state_machine.is_forcible, minion)
 	
 func _on_forcible_minions_changed(is_enabled: bool, minion: Minion) -> void:
-	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
-	update_minion_follow_points()
-	if is_instance_valid(minion) and is_enabled:
-		call_deferred("_change_new_minion_state", minion)
-	_hook_minion_signals()
+	_minions_changed(is_enabled, minion)
 	
 func _on_path_updated() -> void:
 	minion_path.update_point(entity.global_position)
-	update_minion_follow_points()
+	
+func _minions_changed(is_forcible: bool, minion: Minion = null) -> void:
+	radial_minion_menu.set_options(minion_handler.forcible_minions.keys())
+	if is_instance_valid(minion) and minion.state_machine.is_forcible:
+		call_deferred("_change_new_minion_state", minion)
+		call_deferred("_hook_minion_signals")

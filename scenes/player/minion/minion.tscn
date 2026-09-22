@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://bk5x6jatv6o80" path="res://scenes/player/minion/minion_state_machine.tscn" id="5_l5d2n"]
 [ext_resource type="PackedScene" uid="uid://bwsnqroe766j7" path="res://scenes/player/minion/states/minion_select_state_3.tscn" id="6_8b0ys"]
 [ext_resource type="Script" uid="uid://b0y5vwaugd0mg" path="res://scripts/player/minion/states/minion_select_state.gd" id="7_4eqwe"]
-[ext_resource type="PackedScene" uid="uid://wcxtrycj2vlv" path="res://scenes/player/minion/states/minion_follow_state_3.tscn" id="7_fqypg"]
 [ext_resource type="Script" uid="uid://c64ctrgakpvhc" path="res://scripts/player/minion/states/minion_select_state_2.gd" id="8_yfxcs"]
 [ext_resource type="Script" uid="uid://ciy47rrbjltcd" path="res://scripts/player/minion/states/minion_follow_state.gd" id="10_2sv4e"]
 [ext_resource type="Script" uid="uid://diy5kanqot5xo" path="res://scripts/player/minion/states/minion_follow_state_2.gd" id="11_1agmw"]
@@ -51,16 +50,18 @@ shape = SubResource("CircleShape2D_fqypg")
 debug_color = Color(0.39926603, 0, 0.022066697, 0.41960785)
 
 [node name="minion_movement" parent="." unique_id=248751734 instance=ExtResource("4_fqypg")]
-select_lerp_weight = 0.1
-follow_lerp_weight = 0.1
+select_lerp_weight = 0.09999999999999999
+follow_lerp_weight = 0.09999999999999999
+owner_lerp_weight = 0.25
 select_movement_speed = 500.0
 select_acceleration_speed = 1000.0
 movement_speed = 400.0
 move_acceleration_speed = 56.0
 stop_acceleration_speed = 100.0
 
-[node name="minion_state_machine" parent="." unique_id=1850018547 node_paths=PackedStringArray("beginning_state") instance=ExtResource("5_l5d2n")]
-beginning_state = NodePath("minion_follow_state_3")
+[node name="minion_state_machine" parent="." unique_id=1850018547 node_paths=PackedStringArray("beginning_state", "default_state") instance=ExtResource("5_l5d2n")]
+beginning_state = NodePath("minion_follow_state_2")
+default_state = NodePath("minion_follow_state")
 
 [node name="minion_select_state" type="Node" parent="minion_state_machine" unique_id=55211126 node_paths=PackedStringArray("minion_select_state_2", "minion")]
 script = ExtResource("7_4eqwe")
@@ -82,7 +83,4 @@ minion = NodePath("../..")
 
 [node name="minion_follow_state_2" type="Node" parent="minion_state_machine" unique_id=780571290 node_paths=PackedStringArray("minion")]
 script = ExtResource("11_1agmw")
-minion = NodePath("../..")
-
-[node name="minion_follow_state_3" parent="minion_state_machine" unique_id=960722804 node_paths=PackedStringArray("minion") instance=ExtResource("7_fqypg")]
 minion = NodePath("../..")

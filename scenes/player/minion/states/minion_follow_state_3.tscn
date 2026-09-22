@@ -1,6 +1,37 @@
-[gd_scene format=3 uid="uid://wcxtrycj2vlv"]
+[gd_scene format=3 uid="uid://dit00xwrwiv1c"]
 
-[ext_resource type="Script" uid="uid://ddrcovwt8l0a8" path="res://scripts/player/minion/states/minion_follow_state_3.gd" id="1_3x6r8"]
+[sub_resource type="GDScript" id="GDScript_xjb6s"]
+script/source = "class_name MinionFollowState3
+extends State
+
+@export var minion: Minion
+
+func _ready() -> void:
+	assert(minion != null, \"MINION FOLLOW STATE: Stateful node not set\")
+
+func enter() -> void:
+	pass
+
+func exit() -> void:
+	pass
+
+func frames(_delta: float) -> State:
+	return null
+
+func physics(_delta: float) -> State:
+	if minion.movement.has_arrived():
+		minion.movement.stop()
+	else:
+		minion.movement.lerp_follow()
+		
+	return null
+
+func input_process(_delta: float) -> State:
+	return null
+
+func input_event(_event: InputEvent) -> State:
+	return null
+"
 
 [node name="minion_follow_state_3" type="Node" unique_id=960722804]
-script = ExtResource("1_3x6r8")
+script = SubResource("GDScript_xjb6s")
