@@ -10,6 +10,8 @@
 [ext_resource type="Script" uid="uid://b0y5vwaugd0mg" path="res://scripts/player/minion/states/minion_select_state.gd" id="7_4eqwe"]
 [ext_resource type="PackedScene" uid="uid://wcxtrycj2vlv" path="res://scenes/player/minion/states/minion_follow_state_3.tscn" id="7_fqypg"]
 [ext_resource type="Script" uid="uid://c64ctrgakpvhc" path="res://scripts/player/minion/states/minion_select_state_2.gd" id="8_yfxcs"]
+[ext_resource type="Script" uid="uid://ciy47rrbjltcd" path="res://scripts/player/minion/states/minion_follow_state.gd" id="10_2sv4e"]
+[ext_resource type="Script" uid="uid://diy5kanqot5xo" path="res://scripts/player/minion/states/minion_follow_state_2.gd" id="11_1agmw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8b0ys"]
 radius = 29.0
@@ -73,9 +75,14 @@ minion = NodePath("../..")
 [node name="minion_select_state_3" parent="minion_state_machine" unique_id=1223317756 node_paths=PackedStringArray("minion") instance=ExtResource("6_8b0ys")]
 minion = NodePath("../..")
 
-[node name="minion_follow_state" type="Node" parent="minion_state_machine" unique_id=481307831]
+[node name="minion_follow_state" type="Node" parent="minion_state_machine" unique_id=481307831 node_paths=PackedStringArray("minion_follow_state_2", "minion")]
+script = ExtResource("10_2sv4e")
+minion_follow_state_2 = NodePath("../minion_follow_state_2")
+minion = NodePath("../..")
 
-[node name="minion_follow_state_2" type="Node" parent="minion_state_machine" unique_id=780571290]
+[node name="minion_follow_state_2" type="Node" parent="minion_state_machine" unique_id=780571290 node_paths=PackedStringArray("minion")]
+script = ExtResource("11_1agmw")
+minion = NodePath("../..")
 
 [node name="minion_follow_state_3" parent="minion_state_machine" unique_id=960722804 node_paths=PackedStringArray("minion") instance=ExtResource("7_fqypg")]
 minion = NodePath("../..")

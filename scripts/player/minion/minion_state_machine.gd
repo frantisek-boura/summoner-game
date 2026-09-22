@@ -19,7 +19,7 @@ signal forcible_changed(is_enabled: bool)
 
 ## Changes the player's state to idle.
 func change_to_follow_state() -> void:
-	change_state_safe("minion_follow_state_3") ## TODO: smazat 3
+	change_state_safe("minion_follow_state") ## TODO: smazat 3
 	
 ## Changes the player's state to idle.
 func change_to_select_state() -> void:

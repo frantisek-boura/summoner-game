@@ -73,11 +73,13 @@ follow_speed = 24.0
 
 [node name="minion2" parent="minion_manager/minion_handler" unique_id=1335872083 instance=ExtResource("10_uf5tr")]
 
-[node name="minion3" parent="minion_manager/minion_handler" unique_id=518203392 instance=ExtResource("10_uf5tr")]
+[node name="minion3" parent="minion_manager/minion_handler" unique_id=926206823 instance=ExtResource("10_uf5tr")]
 
-[node name="minion4" parent="minion_manager/minion_handler" unique_id=875002325 instance=ExtResource("10_uf5tr")]
+[node name="minion4" parent="minion_manager/minion_handler" unique_id=588786451 instance=ExtResource("10_uf5tr")]
 
-[node name="minion5" parent="minion_manager/minion_handler" unique_id=1401653836 instance=ExtResource("10_uf5tr")]
+[node name="minion5" parent="minion_manager/minion_handler" unique_id=1321745902 instance=ExtResource("10_uf5tr")]
+
+[node name="minion6" parent="minion_manager/minion_handler" unique_id=1697182074 instance=ExtResource("10_uf5tr")]
 
 [node name="minion_manager_state_machine" parent="minion_manager" unique_id=1920102366 node_paths=PackedStringArray("beginning_state") instance=ExtResource("10_fcs02")]
 beginning_state = NodePath("minion_manager_select_state")

@@ -10,7 +10,9 @@ func _ready() -> void:
 	assert(move_state != null, "PLAYER IDLE STATE: PlayerMoveState node not set")
 
 func enter() -> void:
-	player.minion_manager.change_to_follow_state()
+	if player.minion_manager.is_selecting():
+		player.minion_manager.close_selection_menu(false)
+		player.minion_manager.change_to_follow_state()
 
 func exit() -> void:
 	if player.minion_manager.is_selecting():
